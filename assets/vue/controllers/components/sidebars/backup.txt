@@ -1,0 +1,23 @@
+				<!--<a-sub-menu key="sub8">
+				<template #title>
+					<span class="position-sidebar-options">
+					<span class="icon">📦</span>
+					<span class="label">Almacén</span>
+					</span>
+				</template>
+				<a-menu-item key="a1">
+					<router-link to="/recepcionar-almacen" class="position-sidebar-options submenu-link">
+					<span class="label li-menu">Recepcion almacen</span>
+					</router-link>
+				</a-menu-item>
+				<a-menu-item key="a1">
+					<router-link to="/despachar-almacen" class="position-sidebar-options submenu-link">
+					<span class="label li-menu">Despachos almacen</span>
+					</router-link>
+				</a-menu-item>
+				<a-menu-item key="a1">
+					<router-link to="/existencia-almacen" class="position-sidebar-options submenu-link">
+					<span class="label li-menu">Existencias almacen</span>
+					</router-link>
+				</a-menu-item>
+				</a-sub-menu>-->

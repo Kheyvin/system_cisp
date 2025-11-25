@@ -8,6 +8,37 @@ import './stimulus_bootstrap.js';
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import App from "./vue/controllers/App.vue";
+import router from './vue/controllers/router/Index';
+import DashboardLayout from './vue/controllers/layouts/Dashboard.vue';
+import { authStore } from "./vue/controllers/store/auth"; // nuevo import
 import './styles/app.css';
+
+const app = createApp(App);
+app.component("layout-dashboard", DashboardLayout);
+
+app.use(router);
+const pinia = createPinia();
+app.use(pinia);
+
+router.beforeEach(async (to, from, next) => {
+    const store = authStore();
+    // Si hay token pero no se ha cargado el usuario, se intenta cargar
+    if (store.token && !store.user) {
+        await store.checkAuth();
+    }
+    if (to.path === '/login') {
+        return next();
+    }
+    if (!store.isAuthenticated) {
+        return next({ path: '/login' });
+    }
+    next();
+});
+
+app.mount("#app");
 
 registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));
