@@ -10,7 +10,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { authStore } from "./store/auth";
-import DashboardLayout from "./layouts/Dashboard.vue";
+import DashboardLayout from "../../vue/controllers/components/ui/templates/DashboardLayout.vue";
 
 const route = useRoute();
 const store = authStore();

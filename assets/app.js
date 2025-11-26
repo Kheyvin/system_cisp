@@ -13,7 +13,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./vue/controllers/App.vue";
 import router from './vue/controllers/router/Index';
-import DashboardLayout from './vue/controllers/layouts/Dashboard.vue';
+import DashboardLayout from './vue/controllers/components/ui/templates/DashboardLayout.vue';
 import { authStore } from "./vue/controllers/store/auth"; // nuevo import
 import './styles/app.css';
 
@@ -24,7 +24,7 @@ app.use(router);
 const pinia = createPinia();
 app.use(pinia);
 
-router.beforeEach(async (to, from, next) => {
+/* router.beforeEach(async (to, from, next) => {
     const store = authStore();
     // Si hay token pero no se ha cargado el usuario, se intenta cargar
     if (store.token && !store.user) {
@@ -37,6 +37,10 @@ router.beforeEach(async (to, from, next) => {
         return next({ path: '/login' });
     }
     next();
+});
+ */
+router.beforeEach((to, from, next) => {
+  next();
 });
 
 app.mount("#app");

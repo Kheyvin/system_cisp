@@ -1,33 +1,62 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // import { authStore } from '../store/auth'; // Para autenticación
-import Dashboard from '../views/Dashboard.vue';
-import Login from '../components/Login.vue';
-import DashboardLayout from '../layouts/Dashboard.vue';
-import Servicios from '../views/Servicios.vue';
+//import Login from '../components/Login.vue';
+import DashboardLayout from '../components/ui/templates/DashboardLayout.vue';
+
+import Home from '../views/dashboard/Home.vue';
+import Receipts from '../views/dashboard/Receipts.vue';
+import Requests from '../views/dashboard/Requests.vue';
+import Promotions from '../views/dashboard/Promotions.vue';
+import Payments from '../views/dashboard/Payments.vue';
+import Settings from '../views/dashboard/Settings.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'HomeRedirect',
     redirect: '/dashboard',
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard,
-    meta: { layout: 'dashboard', requiresAuth: false },
+    component: Home,
+    meta: { layout: DashboardLayout, requiresAuth: false },
   },
   {
-    path: '/servicios',
-    name: 'Servicios',
-    component: Servicios,
-    meta: { layout: 'dashboard', requiresAuth: false },
+    path: '/dashboard/recibos',
+    name: 'Receipts',
+    component: Receipts,
+    meta: { layout: DashboardLayout, requiresAuth: false },
   },
   {
+    path: '/dashboard/solicitudes',
+    name: 'Requests',
+    component: Requests,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+  {
+    path: '/dashboard/promociones',
+    name: 'Promotions',
+    component: Promotions,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+  {
+    path: '/dashboard/pagos',
+    name: 'Payments',
+    component: Payments,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+  {
+    path: '/dashboard/configuracion',
+    name: 'Settings',
+    component: Settings,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+ /*  {
     path: '/login',
     name: 'Login',
     component: Login,
-  },
+  }, */
 ];
 
 // 📌 Función para asignar DashboardLayout como predeterminado
