@@ -46,7 +46,7 @@
         />
         <button
           @click="$emit('logout')"
-          class="flex items-center w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#0D9488] focus:outline-none rounded-xl cursor-pointer group"
+          class="flex items-center w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#2DBFAF] focus:outline-none rounded-xl cursor-pointer group"
         >
           <Icon name="log-out" size="20" class="mr-3" />
           <span>Cerrar sesion</span>

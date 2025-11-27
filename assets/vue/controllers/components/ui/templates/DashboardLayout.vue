@@ -8,7 +8,7 @@
       class="flex-1 flex flex-col transition-all duration-300"
       :class="{ 'ml-64': isSidebarOpen, 'ml-0': !isSidebarOpen }"
     >
-      <Header @toggle-sidebar="toggleSidebar" />
+      <Header :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
 
       <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
         <slot></slot>

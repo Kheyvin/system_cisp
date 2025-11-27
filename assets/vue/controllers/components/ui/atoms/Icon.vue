@@ -46,6 +46,34 @@
     <path v-if="name === 'download'" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
     <polyline v-if="name === 'download'" points="7 10 12 15 17 10"></polyline>
     <line v-if="name === 'download'" x1="12" y1="15" x2="12" y2="3"></line>
+
+    <path v-if="name === 'wifi'" d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+    <path v-if="name === 'wifi'" d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+    <path v-if="name === 'wifi'" d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+    <line v-if="name === 'wifi'" x1="12" y1="20" x2="12.01" y2="20"></line>
+
+    <line v-if="name === 'wifi-off'" x1="1" y1="1" x2="23" y2="23"></line>
+    <path v-if="name === 'wifi-off'" d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+    <path v-if="name === 'wifi-off'" d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+    <path v-if="name === 'wifi-off'" d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+    <path v-if="name === 'wifi-off'" d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+    <path v-if="name === 'wifi-off'" d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+    <line v-if="name === 'wifi-off'" x1="12" y1="20" x2="12.01" y2="20"></line>
+
+    <line v-if="name === 'dollar-sign'" x1="12" y1="1" x2="12" y2="23"></line>
+    <path v-if="name === 'dollar-sign'" d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+
+    <polyline v-if="name === 'activity'" points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+
+    <circle v-if="name === 'clock'" cx="12" cy="12" r="10"></circle>
+    <polyline v-if="name === 'clock'" points="12 6 12 12 16 14"></polyline>
+
+    <path v-if="name === 'gauge'" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+    <path v-if="name === 'gauge'" d="M13.4 10.6 19 5"></path>
+    <path v-if="name === 'gauge'" d="M12 20a9 9 0 1 1 9-9"></path>
+
+    <rect v-if="name === 'sidebar'" x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+    <line v-if="name === 'sidebar'" x1="9" y1="3" x2="9" y2="21"></line>
   </svg>
 </template>
 
