@@ -2,7 +2,7 @@
   <div class="mb-2">
     <button
       @click="toggle"
-      class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none"
+      class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-white hover:bg-[#0D9488] focus:outline-none rounded-xl cursor-pointer"
     >
       <span>{{ title }}</span>
       <Icon :name="isOpen ? 'chevron-down' : 'chevron-right'" size="16" />
@@ -14,8 +14,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import Icon from '../atoms/Icon.vue';
+import { ref } from "vue";
+import Icon from "../atoms/Icon.vue";
 
 const props = defineProps({
   title: {

@@ -37,9 +37,15 @@
 
     <polyline v-if="name === 'chevron-down'" points="6 9 12 15 18 9"></polyline>
     <polyline v-if="name === 'chevron-right'" points="9 18 15 12 9 6"></polyline>
+    <polyline v-if="name === 'chevron-left'" points="15 18 9 12 15 6"></polyline>
+    
     <line v-if="name === 'menu'" x1="3" y1="12" x2="21" y2="12"></line>
     <line v-if="name === 'menu'" x1="3" y1="6" x2="21" y2="6"></line>
     <line v-if="name === 'menu'" x1="3" y1="18" x2="21" y2="18"></line>
+
+    <path v-if="name === 'download'" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline v-if="name === 'download'" points="7 10 12 15 17 10"></polyline>
+    <line v-if="name === 'download'" x1="12" y1="15" x2="12" y2="3"></line>
   </svg>
 </template>
 

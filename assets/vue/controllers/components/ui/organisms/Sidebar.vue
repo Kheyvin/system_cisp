@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="fixed inset-y-0 left-0 z-30 w-64 transition-transform duration-300 transform bg-[#15b8a6] text-white overflow-y-auto"
+    class="fixed inset-y-0 left-0 z-30 w-64 transition-transform duration-300 transform bg-principal text-white overflow-y-auto"
     :class="{ '-translate-x-full': !isOpen, 'translate-x-0': isOpen }"
   >
     <div class="flex items-center justify-center h-16 border-b border-blue-800">
@@ -46,7 +46,7 @@
         />
         <button
           @click="$emit('logout')"
-          class="flex items-center w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-800 group"
+          class="flex items-center w-full px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#0D9488] focus:outline-none rounded-xl cursor-pointer group"
         >
           <Icon name="log-out" size="20" class="mr-3" />
           <span>Cerrar sesion</span>
