@@ -2,18 +2,18 @@
 @source not "../../public";
 
 @theme {
-      --color-principal: #15B8A6;
-  --color-keppel-50: #f0fdfa;
-  --color-keppel-100: #ccfbf1;
-  --color-keppel-200: #9af5e4;
-  --color-keppel-300: #5fe9d3;
-  --color-keppel-400: #2ed3be;
-  --color-keppel-500: #15b8a6;
-  --color-keppel-600: #0e9387;
-  --color-keppel-700: #10756e;
-  --color-keppel-800: #115e59;
-  --color-keppel-900: #134e4a;
-  --color-keppel-950: #042f2e;
-  --color-keppel: #15B8A6;
+    --color-principal: #15B8A6;
+    --color-keppel-50: #f0fdfa;
+    --color-keppel-100: #ccfbf1;
+    --color-keppel-200: #9af5e4;
+    --color-keppel-300: #5fe9d3;
+    --color-keppel-400: #2ed3be;
+    --color-keppel-500: #15b8a6;
+    --color-keppel-600: #0e9387;
+    --color-keppel-700: #10756e;
+    --color-keppel-800: #115e59;
+    --color-keppel-900: #134e4a;
+    --color-keppel-950: #042f2e;
+    --color-keppel: #15B8A6;
 
 }
