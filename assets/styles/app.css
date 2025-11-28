@@ -233,3 +233,9 @@
   --color-ksp-muted-950: #323234;
   --color-ksp-muted: #c5c6c9;
 }
+
+@layer utilities {
+  .bg-ksp-keppel-gradient {
+    background: linear-gradient(90deg, #0C8A78  0%, #0BAF9F   100%);
+  }
+}

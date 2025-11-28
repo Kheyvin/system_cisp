@@ -1,9 +1,6 @@
 <template>
   <NavLink :to="to" :collapsed="collapsed">
-    <div
-      class="flex items-center"
-      :class="collapsed ? 'justify-center' : ''"
-    >
+    <div class="flex items-center" :class="collapsed ? 'justify-center' : ''">
       <Icon :name="icon" size="20" :class="collapsed ? '' : 'mr-3'" />
       <span v-if="!collapsed">{{ label }}</span>
     </div>
@@ -12,9 +9,9 @@
 </template>
 
 <script setup>
-import NavLink from '../atoms/NavLink.vue';
-import Icon from '../atoms/Icon.vue';
-import Badge from '../atoms/Badge.vue';
+import NavLink from "../atoms/NavLink.vue";
+import Icon from "../atoms/Icon.vue";
+import Badge from "../atoms/Badge.vue";
 
 defineProps({
   to: {
