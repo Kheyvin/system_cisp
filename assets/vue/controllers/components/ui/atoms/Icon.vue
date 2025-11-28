@@ -156,6 +156,9 @@
 
     <polyline v-if="name === 'check'" points="20 6 9 17 4 12"></polyline>
 
+    <line v-if="name === 'plus'" x1="12" y1="5" x2="12" y2="19"></line>
+    <line v-if="name === 'plus'" x1="5" y1="12" x2="19" y2="12"></line>
+
     <path
       v-if="name === 'chat-bubble'"
       d="M4 5h16v11H8l-4 4V5Z"
