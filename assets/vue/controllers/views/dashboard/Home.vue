@@ -7,7 +7,7 @@
         <span class="text-base">Bienvenido a tu portal CISP </span>
       </div>
       <Button
-        customClass="bg-[#324D68] text-white hover:bg-[#24384c] flex items-center px-4 py-2 shadow-sm"
+        customClass="bg-[#324D68] text-white hover:bg-[#24384c] flex items-center px-4 py-2 shadow-sm cursor-pointer"
       >
         <Icon name="download" size="20" class="mr-2" />
         Descargar Factura
@@ -33,7 +33,7 @@
             <span class="text-white font-medium">Estado de conexion</span>
           </div>
           <div class="grow flex flex-col justify-end">
-            <h3 class="text-2xl font-bold text-white mb-1">
+            <h3 class="text-xl font-bold text-white mb-1">
               {{ connectionStatusText }}
             </h3>
             <p class="text-white/80 text-sm">
@@ -55,8 +55,8 @@
             <span class="text-gray-600 font-medium">Proximo Pago</span>
           </div>
           <div class="grow flex flex-col justify-end">
-            <h3 class="text-2xl font-bold text-gray-800 mb-1">
-              {{ planPrice }}
+            <h3 class="text-xl font-bold text-gray-800 mb-1">
+              S/ {{ planPrice }}
             </h3>
             <p class="text-gray-500 text-sm">Vence: {{ nextPaymentDate }}</p>
           </div>
@@ -93,7 +93,7 @@
             <span class="text-gray-600 font-medium">Tiempo Activo</span>
           </div>
           <div class="grow flex flex-col justify-end">
-            <h3 class="text-2xl font-bold text-gray-800 mb-1">{{ uptime }}</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-1">{{ uptime }}%</h3>
             <p class="text-gray-500 text-sm">Este mes</p>
           </div>
         </Card>
@@ -132,7 +132,7 @@
               class="flex justify-between items-center border-b border-gray-100 pb-2"
             >
               <span class="text-gray-600">Precio mensual:</span>
-              <span class="font-medium text-gray-800">{{ planPrice }}</span>
+              <span class="font-medium text-gray-800">S/ {{ planPrice }}</span>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-gray-600">Estado:</span>
@@ -280,12 +280,12 @@ import ImageSlider from "../../components/ui/organisms/ImageSlider.vue";
 const status = ref("activo");
 const planSpeed = ref(100);
 const dataUsed = ref(75);
-const planPrice = ref("S/ 35.99");
+const planPrice = ref(35.99);
 const nextPaymentDate = ref("15 Feb 2024");
 const downloadSpeed = ref(95.2);
 const uploadSpeed = ref(48.7);
 const pingValue = ref(12);
-const uptime = ref("99.8%");
+const uptime = ref(99.8);
 const payments = ref([
   { id: 1, amount: "S/ 35.99", date: "2024-01-22", status: "Pagado" },
   { id: 2, amount: "S/ 42.50", date: "2024-02-20", status: "Pendiente" },
@@ -320,18 +320,22 @@ const currentSpeedDisplay = computed(() => {
 });
 
 const currentSpeedClass = computed(() => {
+  const base = "text-xl font-bold mb-1";
+  const alertBase =
+    "text-base font-bold px-2 py-1 rounded mb-1 inline-block rounded-xl";
+
   switch (status.value) {
     case "activo":
-      return "text-2xl font-bold text-gray-800 mb-1";
+      return `${base} text-gray-800`;
     case "cargando":
-      return "text-2xl font-bold text-gray-400 mb-1";
+      return `${base} text-gray-400`;
     case "inactivo":
-      return "text-lg font-bold text-red-600 bg-red-100 px-2 py-1 rounded mb-1 inline-block rounded-xl";
+      return `${alertBase} text-red-600 bg-red-100`;
     case "suspendido":
     case "cancelado":
-      return "text-lg font-bold text-orange-600 bg-orange-100 px-2 py-1 rounded mb-1 inline-block rounded-xl";
+      return `${alertBase} text-orange-600 bg-orange-100`;
     default:
-      return "text-2xl font-bold text-gray-800 mb-1";
+      return `${base} text-gray-800`;
   }
 });
 
