@@ -148,6 +148,31 @@
       d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"
     ></path>
     <circle v-if="name === 'eye'" cx="12" cy="12" r="3"></circle>
+
+    <circle v-if="name === 'search'" cx="11" cy="11" r="8"></circle>
+    <line v-if="name === 'search'" x1="21" y1="21" x2="16.65" y2="16.65"></line>
+
+    <path v-if="name === 'filter'" d="M4 4h16l-6 8v5l-4 2v-7Z"></path>
+
+    <polyline v-if="name === 'check'" points="20 6 9 17 4 12"></polyline>
+
+    <path
+      v-if="name === 'chat-bubble'"
+      d="M4 5h16v11H8l-4 4V5Z"
+    ></path>
+
+    <circle v-if="name === 'clock-round'" cx="12" cy="12" r="9"></circle>
+    <polyline v-if="name === 'clock-round'" points="12 7 12 12 15 14"></polyline>
+
+    <path
+      v-if="name === 'check-round'"
+      d="M21 11a9 9 0 1 1-4.22-7.53"
+    ></path>
+    <polyline v-if="name === 'check-round'" points="6 12 11 17 20 5"></polyline>
+
+    <circle v-if="name === 'alert-circle'" cx="12" cy="12" r="9"></circle>
+    <line v-if="name === 'alert-circle'" x1="12" y1="8" x2="12" y2="13"></line>
+    <line v-if="name === 'alert-circle'" x1="12" y1="17" x2="12.01" y2="17"></line>
   </svg>
 </template>
 
