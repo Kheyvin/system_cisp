@@ -1,14 +1,11 @@
 <template>
   <div>
-    <!-- Header Section -->
     <div class="flex justify-between items-center mb-6">
       <div>
         <h2 class="text-3xl font-bold text-ksp-principal">
           Solicitudes de Servicio
         </h2>
-        <span class="text-base"
-          >Crea y gestiona tus solicitudes de soporte
-        </span>
+        <span class="text-base">Crea y gestiona tus solicitudes de soporte</span>
       </div>
       <Button
         customClass="bg-[#324D68] text-white hover:bg-[#24384c] flex items-center px-4 py-2 shadow-sm cursor-pointer"
@@ -37,6 +34,7 @@
           </div>
         </Card>
       </div>
+
       <div class="col-span-12 md:col-span-6 lg:col-span-3">
         <Card
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
@@ -45,7 +43,7 @@
             <div class="bg-yellow-100 p-2 mr-3 rounded-full">
               <Icon name="clock" size="24" class="text-yellow-600" />
             </div>
-            <span class="text-gray-600 font-medium"> En Progreso </span>
+            <span class="text-gray-600 font-medium">En Progreso</span>
           </div>
           <div class="grow flex flex-col justify-end">
             <h3 class="text-xl font-bold text-gray-800 mb-1">
@@ -55,6 +53,7 @@
           </div>
         </Card>
       </div>
+
       <div class="col-span-12 md:col-span-6 lg:col-span-3">
         <Card
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
@@ -63,7 +62,7 @@
             <div class="bg-green-100 p-2 mr-3 rounded-full">
               <Icon name="check-round" size="24" class="text-green-600" />
             </div>
-            <span class="text-gray-600 font-medium"> Completadas </span>
+            <span class="text-gray-600 font-medium">Completadas</span>
           </div>
           <div class="grow flex flex-col justify-end">
             <h3 class="text-xl font-bold text-gray-800 mb-1">
@@ -73,6 +72,7 @@
           </div>
         </Card>
       </div>
+
       <div class="col-span-12 md:col-span-6 lg:col-span-3">
         <Card
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
@@ -81,7 +81,7 @@
             <div class="bg-red-100 p-2 mr-3 rounded-full">
               <Icon name="alert-circle" size="24" class="text-red-500" />
             </div>
-            <span class="text-gray-600 font-medium"> Pendientes </span>
+            <span class="text-gray-600 font-medium">Pendientes</span>
           </div>
           <div class="grow flex flex-col justify-end">
             <h3 class="text-xl font-bold text-gray-800 mb-1">
@@ -94,17 +94,13 @@
     </div>
 
     <div class="mt-8">
-      <Card
-        class="p-6 bg-white shadow-sm hover:shadow-lg transition-shadow duration-200"
-      >
+      <Card class="p-6 bg-white shadow-sm hover:shadow-lg transition-shadow duration-200">
         <div class="mb-4">
-          <h3 class="text-lg font-bold text-gray-800">Historial de Facturas</h3>
-          <p class="text-sm text-gray-500">Busca y filtra tus facturas</p>
+          <h3 class="text-lg font-bold text-gray-800">Historial de Solicitudes</h3>
+          <p class="text-sm text-gray-500">Busca y filtra tus solicitudes</p>
         </div>
 
-        <div
-          class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
-        >
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div class="relative w-full lg:max-w-sm">
             <Icon
               name="search"
@@ -115,10 +111,55 @@
               v-model="searchQuery"
               type="text"
               class="w-full border border-gray-200 rounded-md py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal"
-              placeholder="Buscar por número de factura o periodo ..."
+              placeholder="Buscar por ID o asunto ..."
             />
           </div>
 
+          <div class="relative w-full lg:w-60 ml-auto">
+            <button
+              type="button"
+              @click="togglePriorityDropdown"
+              class="w-full border border-gray-200 rounded-md py-2 pl-12 pr-3 text-sm text-left focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal cursor-pointer flex items-center"
+            >
+              <Icon
+                name="filter"
+                size="20"
+                class="text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
+              />
+              <span class="truncate pr-6">Prioridad: {{ selectedPriorityLabel }}</span>
+              <Icon
+                name="chevron-down"
+                size="16"
+                :class="[
+                  'ml-auto text-gray-500 transition-transform duration-200',
+                  isPriorityDropdownOpen ? 'rotate-180' : 'rotate-0',
+                ]"
+              />
+            </button>
+
+            <transition name="fade">
+              <ul
+                v-if="isPriorityDropdownOpen"
+                class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-sm"
+              >
+                <li
+                  v-for="option in priorityOptions"
+                  :key="option.value"
+                  @click="handlePrioritySelect(option.value)"
+                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-50 cursor-pointer"
+                >
+                  <span>{{ option.label }}</span>
+                  <Icon
+                    v-if="priorityFilter === option.value"
+                    name="check"
+                    size="16"
+                    class="text-ksp-green"
+                  />
+                </li>
+              </ul>
+            </transition>
+          </div>
+          
           <div class="relative w-full lg:w-60">
             <button
               type="button"
@@ -130,7 +171,7 @@
                 size="20"
                 class="text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
               />
-              <span class="truncate pr-6">{{ selectedStatusLabel }}</span>
+              <span class="truncate pr-6">Estado: {{ selectedStatusLabel }}</span>
               <Icon
                 name="chevron-down"
                 size="16"
@@ -167,44 +208,38 @@
 
         <div class="mt-4">
           <DataTable
-            :columns="invoiceColumns"
-            :data="paginatedInvoices"
+            :columns="requestColumns"
+            :data="paginatedRequests"
             :pagination="paginationState"
             @page-change="handlePageChange"
             @update:itemsPerPage="handleItemsPerPageChange"
           >
-            <template #cell-status="{ value }">
+            <template #cell-priority="{ value }">
               <span
-                class="px-3 py-1 rounded-full text-xs font-semibold"
-                :class="paymentStatusClass(value)"
+                class="px-3 py-1 rounded-full text-xs font-semibold capitalize"
+                :class="priorityBadgeClass(value)"
               >
                 {{ value }}
               </span>
             </template>
 
-            <template #cell-actions="{ row }">
-              <div class="flex flex-wrap items-center gap-2 justify-start">
-                <template v-if="shouldShowDetailActions(row.status)">
-                  <button
-                    class="p-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-                    aria-label="Ver factura"
-                  >
-                    <Icon name="eye" size="18" />
-                  </button>
-                  <button
-                    class="p-2 border border-gray-200 rounded-md text-gray-600 hover:bg-gray-100 transition-colors cursor-pointer"
-                    aria-label="Descargar factura"
-                  >
-                    <Icon name="download" size="18" />
-                  </button>
-                </template>
-                <button
-                  v-if="shouldShowPayButton(row.status)"
-                  class="px-3 py-1 rounded-md text-sm font-medium bg-[#455D77] text-white hover:bg-[#324D68] transition-colors cursor-pointer"
-                >
-                  Pagar
-                </button>
-              </div>
+            <template #cell-status="{ value }">
+              <span
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"
+                :class="statusBadgeClass(value)"
+              >
+                <Icon :name="statusIconName(value)" size="14" />
+                {{ value }}
+              </span>
+            </template>
+
+            <template #cell-actions>
+              <button
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-[#465E77] hover:bg-[#324D68] transition-colors cursor-pointer"
+              >
+                <Icon name="eye" size="16" />
+                Ver detalles
+              </button>
             </template>
           </DataTable>
         </div>
@@ -220,165 +255,182 @@ import Icon from "../../components/ui/atoms/Icon.vue";
 import Card from "../../components/ui/atoms/Card.vue";
 import DataTable from "../../components/ui/organisms/DataTable.vue";
 
-const totalRequests = ref(4);
-const inProgressRequests = ref(2);
-const completedRequests = ref(1);
-const pendingRequests = ref(1);
-
-const invoiceColumns = [
+const requests = ref([
   {
-    key: "number",
-    label: "Número de factura",
-    headerClass: "whitespace-nowrap",
-  },
-  { key: "period", label: "Periodo" },
-  {
-    key: "issueDate",
-    label: "Fecha de emisión",
-    headerClass: "whitespace-nowrap",
-  },
-  { key: "amount", label: "Monto" },
-  { key: "status", label: "Estado" },
-  {
-    key: "paymentDate",
-    label: "Fecha de pago",
-    headerClass: "whitespace-nowrap",
+    id: "SOL-2301",
+    type: "Soporte técnico",
+    subject: "Error al iniciar sesión",
+    date: "2024-07-05",
+    priority: "Alta",
+    status: "En progreso",
   },
   {
-    key: "paymentMethod",
-    label: "Método de pago",
-    headerClass: "whitespace-nowrap",
-  },
-  {
-    key: "actions",
-    label: "Acciones",
-    headerClass: "text-center",
-    cellClass: "text-center",
-  },
-];
-
-const invoices = ref([
-  {
-    number: "FAC-2024-001",
-    period: "Enero 2024",
-    issueDate: "2024-01-15",
-    amount: "S/ 35.99",
-    status: "Pagado",
-    paymentDate: "2024-01-16",
-    paymentMethod: "Tarjeta de Crédito",
-  },
-  {
-    number: "FAC-2024-002",
-    period: "Febrero 2024",
-    issueDate: "2024-02-15",
-    amount: "S/ 35.99",
-    status: "Pagado",
-    paymentDate: "2024-02-16",
-    paymentMethod: "Débito automático",
-  },
-  {
-    number: "FAC-2024-003",
-    period: "Marzo 2024",
-    issueDate: "2024-03-15",
-    amount: "S/ 37.50",
+    id: "SOL-2299",
+    type: "Facturación",
+    subject: "Revisión de factura automática",
+    date: "2024-07-02",
+    priority: "Media",
     status: "Pendiente",
-    paymentDate: "-",
-    paymentMethod: "Pendiente",
   },
   {
-    number: "FAC-2024-004",
-    period: "Abril 2024",
-    issueDate: "2024-04-15",
-    amount: "S/ 37.50",
-    status: "Procesando",
-    paymentDate: "2024-04-16",
-    paymentMethod: "Transferencia",
+    id: "SOL-2295",
+    type: "Implementación",
+    subject: "Configuración multi-sede",
+    date: "2024-06-28",
+    priority: "Alta",
+    status: "Resuelto",
   },
   {
-    number: "FAC-2024-005",
-    period: "Mayo 2024",
-    issueDate: "2024-05-15",
-    amount: "S/ 39.99",
-    status: "Vencido",
-    paymentDate: "-",
-    paymentMethod: "Pendiente",
+    id: "SOL-2292",
+    type: "Integraciones",
+    subject: "API retorna error 500",
+    date: "2024-06-25",
+    priority: "Crítica",
+    status: "Abierta",
   },
   {
-    number: "FAC-2024-006",
-    period: "Junio 2024",
-    issueDate: "2024-06-15",
-    amount: "S/ 39.99",
-    status: "Pagado",
-    paymentDate: "2024-06-16",
-    paymentMethod: "Tarjeta de Crédito",
+    id: "SOL-2288",
+    type: "Capacitación",
+    subject: "Sesión para nuevos usuarios",
+    date: "2024-06-20",
+    priority: "Baja",
+    status: "Cerrado",
   },
   {
-    number: "FAC-2024-007",
-    period: "Julio 2024",
-    issueDate: "2024-07-15",
-    amount: "S/ 41.50",
+    id: "SOL-2281",
+    type: "Soporte técnico",
+    subject: "Migración de base de datos",
+    date: "2024-06-18",
+    priority: "Crítica",
+    status: "En espera",
+  },
+  {
+    id: "SOL-2275",
+    type: "Facturación",
+    subject: "Nota de crédito",
+    date: "2024-06-12",
+    priority: "Media",
+    status: "Resuelto",
+  },
+  {
+    id: "SOL-2269",
+    type: "Seguridad",
+    subject: "Revisión de accesos",
+    date: "2024-06-08",
+    priority: "Alta",
     status: "Pendiente",
-    paymentDate: "-",
-    paymentMethod: "Tarjeta de Crédito",
-  },
-  {
-    number: "FAC-2024-008",
-    period: "Agosto 2024",
-    issueDate: "2024-08-15",
-    amount: "S/ 41.50",
-    status: "Suspendido",
-    paymentDate: "-",
-    paymentMethod: "Pendiente",
   },
 ]);
 
-const statusOptions = [
-  { label: "Todos los estados", value: "all" },
-  { label: "Pagado", value: "Pagado" },
-  { label: "Pendiente", value: "Pendiente" },
-  { label: "Procesando", value: "Procesando" },
-  { label: "Suspendido", value: "Suspendido" },
-  { label: "Vencido", value: "Vencido" },
+const requestColumns = [
+  { key: "id", label: "ID solicitud", headerClass: "whitespace-nowrap" },
+  { key: "type", label: "Tipo" },
+  {
+    key: "subject",
+    label: "Asunto",
+    headerClass: "min-w-[200px]",
+  },
+  { key: "date", label: "Fecha", headerClass: "whitespace-nowrap" },
+  { key: "priority", label: "Prioridad" },
+  { key: "status", label: "Estado" },
+  {
+    key: "actions",
+    label: "Acciones",
+    headerClass: "text-right",
+    cellClass: "text-right",
+  },
 ];
+
+const statusOptions = computed(() => {
+  const uniqueStatuses = Array.from(
+    new Set(requests.value.map((request) => request.status))
+  );
+
+  return [
+    { label: "Todos", value: "all" },
+    ...uniqueStatuses.map((status) => ({ label: status, value: status })),
+  ];
+});
+
+const priorityOptions = computed(() => {
+  const uniquePriorities = Array.from(
+    new Set(requests.value.map((request) => request.priority))
+  );
+
+  return [
+    { label: "Todas", value: "all" },
+    ...uniquePriorities.map((priority) => ({ label: priority, value: priority })),
+  ];
+});
 
 const searchQuery = ref("");
 const statusFilter = ref("all");
+const priorityFilter = ref("all");
 const isStatusDropdownOpen = ref(false);
-
+const isPriorityDropdownOpen = ref(false);
 const itemsPerPage = ref(10);
 const currentPage = ref(1);
 
+const totalRequests = computed(() => requests.value.length);
+const inProgressRequests = computed(
+  () => requests.value.filter((request) => request.status === "En progreso").length
+);
+const completedRequests = computed(
+  () =>
+    requests.value.filter((request) => ["Resuelto", "Cerrado"].includes(request.status)).length
+);
+const pendingRequests = computed(
+  () =>
+    requests.value.filter((request) => ["Pendiente", "Abierta", "En espera"].includes(request.status)).length
+);
+
 const selectedStatusLabel = computed(() => {
-  const match = statusOptions.find(
-    (option) => option.value === statusFilter.value
+  const option = statusOptions.value.find(
+    (item) => item.value === statusFilter.value
   );
-  return match ? match.label : "Todos los estados";
+  return option ? option.label : "Todos los estados";
 });
 
-const filteredInvoices = computed(() => {
-  const term = searchQuery.value.trim().toLowerCase();
-  const filter = statusFilter.value;
+const selectedPriorityLabel = computed(() => {
+  const option = priorityOptions.value.find(
+    (item) => item.value === priorityFilter.value
+  );
+  return option ? option.label : "Todas las prioridades";
+});
 
-  return invoices.value.filter((invoice) => {
+const filteredRequests = computed(() => {
+  const term = searchQuery.value.trim().toLowerCase();
+  const status = statusFilter.value;
+  const priority = priorityFilter.value;
+
+  return requests.value.filter((request) => {
     const matchesTerm = term
-      ? invoice.number.toLowerCase().includes(term) ||
-        invoice.period.toLowerCase().includes(term)
+      ? request.id.toLowerCase().includes(term) ||
+        request.subject.toLowerCase().includes(term) ||
+        request.type.toLowerCase().includes(term)
       : true;
+
     const matchesStatus =
-      filter === "all"
+      status === "all"
         ? true
-        : invoice.status.toLowerCase() === filter.toLowerCase();
-    return matchesTerm && matchesStatus;
+        : request.status.toLowerCase() === status.toLowerCase();
+
+    const matchesPriority =
+      priority === "all"
+        ? true
+        : request.priority.toLowerCase() === priority.toLowerCase();
+
+    return matchesTerm && matchesStatus && matchesPriority;
   });
 });
 
 const totalPages = computed(() =>
-  Math.max(1, Math.ceil(filteredInvoices.value.length / itemsPerPage.value))
+  Math.max(1, Math.ceil(filteredRequests.value.length / itemsPerPage.value))
 );
 
-const paginatedInvoices = computed(() => {
+const paginatedRequests = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
-  return filteredInvoices.value.slice(start, start + itemsPerPage.value);
+  return filteredRequests.value.slice(start, start + itemsPerPage.value);
 });
 
 const paginationState = computed(() => ({
@@ -386,6 +438,10 @@ const paginationState = computed(() => ({
   totalPages: totalPages.value,
   itemsPerPage: itemsPerPage.value,
 }));
+
+watch([searchQuery, statusFilter, priorityFilter], () => {
+  currentPage.value = 1;
+});
 
 const handlePageChange = (page) => {
   if (page < 1 || page > totalPages.value) return;
@@ -406,47 +462,49 @@ const handleStatusSelect = (value) => {
   isStatusDropdownOpen.value = false;
 };
 
-watch([searchQuery, statusFilter], () => {
-  currentPage.value = 1;
-});
-
-const paymentStatusClass = (status) => {
-  const map = {
-    Pagado: "bg-green-500 text-white",
-    Pendiente: "bg-yellow-500 text-white",
-    Suspendido: "bg-red-500 text-white",
-    Procesando: "bg-blue-600 text-white",
-    Vencido: "bg-orange-600 text-white",
-  };
-  return map[status] || "bg-gray-600 text-white";
+const togglePriorityDropdown = () => {
+  isPriorityDropdownOpen.value = !isPriorityDropdownOpen.value;
 };
 
-const shouldShowPayButton = (status) =>
-  status === "Pendiente" || status === "Vencido";
+const handlePrioritySelect = (value) => {
+  priorityFilter.value = value;
+  isPriorityDropdownOpen.value = false;
+};
 
-const shouldShowDetailActions = (status) =>
-  !["Pendiente", "Procesando", "Vencido"].includes(status);
+const priorityBadgeClass = (priority) => {
+  const map = {
+    critica: "bg-red-600 text-white",
+    alta: "bg-orange-500 text-white",
+    media: "bg-yellow-500 text-white",
+    baja: "bg-emerald-600 text-white",
+  };
+
+  return map[priority.toLowerCase()] || "bg-gray-500 text-white";
+};
+
+const statusBadgeClass = (status) => {
+  const map = {
+    resuelto: "bg-green-600 text-white",
+    "en progreso": "bg-blue-600 text-white",
+    pendiente: "bg-amber-500 text-white",
+    "en espera": "bg-orange-600 text-white",
+    abierta: "bg-slate-600 text-white",
+    cerrado: "bg-zinc-600 text-white",
+  };
+
+  return map[status.toLowerCase()] || "bg-gray-500 text-white";
+};
+
+const statusIconName = (status) => {
+  const map = {
+    resuelto: "check-round",
+    "en progreso": "clock-round",
+    pendiente: "alert-circle",
+    "en espera": "pause",
+    abierta: "chat-bubble",
+    cerrado: "check-round",
+  };
+
+  return map[status.toLowerCase()] || "chat-bubble";
+};
 </script>
-<style  scoped>
-button,
-.btn {
-  outline: none !important;
-}
-
-button:focus,
-button:focus-visible,
-button:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

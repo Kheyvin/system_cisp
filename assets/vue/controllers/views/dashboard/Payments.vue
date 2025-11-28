@@ -1,648 +1,510 @@
 <template>
   <div>
-    <h2 class="text-2xl font-bold mb-4">Pagos</h2>
-    <p>Esto es pagaaaaaaaos</p>
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="text-3xl font-bold text-ksp-principal">
+          Gestión de Pagos
+        </h2>
+        <span class="text-base">Crea y gestiona tus solicitudes de soporte</span>
+      </div>
+      <Button
+        customClass="bg-[#324D68] text-white hover:bg-[#24384c] flex items-center px-4 py-2 shadow-sm cursor-pointer"
+      >
+        <Icon name="plus" size="20" class="mr-2" />
+        Nueva solicitud
+      </Button>
+    </div>
 
-    <div class="p-6">
-      <h2 class="text-2xl font-bold mb-6">Pagos</h2>
-
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h3 class="text-lg font-semibold mb-4">Pago Directo con Tarjeta</h3>
-
-        <form @submit.prevent="procesarPago" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              Items del Pago
-            </label>
-            <div
-              v-for="(item, indice) in itemsPago"
-              :key="indice"
-              class="flex gap-2 mb-2"
-            >
-              <input
-                v-model="item.title"
-                type="text"
-                placeholder="Nombre del item"
-                class="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                v-model.number="item.quantity"
-                type="number"
-                placeholder="Cantidad"
-                min="1"
-                class="w-24 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                v-model.number="item.unit_price"
-                type="number"
-                step="0.01"
-                placeholder="Precio"
-                min="0.01"
-                class="w-32 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <button
-                v-if="itemsPago.length > 1"
-                @click="eliminarItem(indice)"
-                type="button"
-                class="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-              >
-                Eliminar
-              </button>
+    <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-12 md:col-span-6 lg:col-span-3">
+        <Card
+          class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
+        >
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 p-2 mr-3 rounded-full">
+              <Icon name="dollar-sign" size="24" class="text-blue-600" />
             </div>
-            <button
-              @click="agregarItem"
-              type="button"
-              class="text-sm text-blue-600 hover:text-blue-800"
-            >
-              + Agregar Item
-            </button>
+            <span class="text-gray-600 font-medium">Gasto Anual</span>
           </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Nombre
-              </label>
-              <input
-                v-model="pagador.name"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Apellido
-              </label>
-              <input
-                v-model="pagador.surname"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
+          <div class="grow flex flex-col justify-end">
+            <h3 class="text-xl font-bold text-gray-800 mb-1">
+              S/ {{ totalRequests }}
+            </h3>
+            <p class="text-gray-500 text-sm">Total este año</p>
           </div>
+        </Card>
+      </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
+      <div class="col-span-12 md:col-span-6 lg:col-span-3">
+        <Card
+          class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
+        >
+          <div class="flex items-center mb-4">
+            <div class="bg-yellow-100 p-2 mr-3 rounded-full">
+              <Icon name="clock" size="24" class="text-yellow-600" />
+            </div>
+            <span class="text-gray-600 font-medium">En Progreso</span>
+          </div>
+          <div class="grow flex flex-col justify-end">
+            <h3 class="text-xl font-bold text-gray-800 mb-1">
+              {{ inProgressRequests }}
+            </h3>
+            <p class="text-gray-500 text-sm">Siendo atendidas</p>
+          </div>
+        </Card>
+      </div>
+
+      <div class="col-span-12 md:col-span-6 lg:col-span-3">
+        <Card
+          class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
+        >
+          <div class="flex items-center mb-4">
+            <div class="bg-green-100 p-2 mr-3 rounded-full">
+              <Icon name="check-round" size="24" class="text-green-600" />
+            </div>
+            <span class="text-gray-600 font-medium">Completadas</span>
+          </div>
+          <div class="grow flex flex-col justify-end">
+            <h3 class="text-xl font-bold text-gray-800 mb-1">
+              {{ completedRequests }}
+            </h3>
+            <p class="text-gray-500 text-sm">Resueltas</p>
+          </div>
+        </Card>
+      </div>
+
+      <div class="col-span-12 md:col-span-6 lg:col-span-3">
+        <Card
+          class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
+        >
+          <div class="flex items-center mb-4">
+            <div class="bg-red-100 p-2 mr-3 rounded-full">
+              <Icon name="alert-circle" size="24" class="text-red-500" />
+            </div>
+            <span class="text-gray-600 font-medium">Pendientes</span>
+          </div>
+          <div class="grow flex flex-col justify-end">
+            <h3 class="text-xl font-bold text-gray-800 mb-1">
+              {{ pendingRequests }}
+            </h3>
+            <p class="text-gray-500 text-sm">Esperando respuesta</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <Card class="p-6 bg-white shadow-sm hover:shadow-lg transition-shadow duration-200">
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-gray-800">Historial de Solicitudes</h3>
+          <p class="text-sm text-gray-500">Busca y filtra tus solicitudes</p>
+        </div>
+
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="relative w-full lg:max-w-sm">
+            <Icon
+              name="search"
+              size="18"
+              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+            />
             <input
-              v-model="pagador.email"
-              type="email"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md"
-              required
+              v-model="searchQuery"
+              type="text"
+              class="w-full border border-gray-200 rounded-md py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal"
+              placeholder="Buscar por ID o asunto ..."
             />
           </div>
 
-          <div class="border-t pt-4 mt-4">
-            <h4 class="text-md font-semibold mb-4">
-              Informacion de la Tarjeta
-            </h4>
-
-            <div class="space-y-4">
-              <div v-if="!clavePublica" class="text-gray-500 text-sm">
-                Cargando configuracion de pago...
-              </div>
-              <div v-show="clavePublica">
-                <MercadoPagoCardFields
-                  v-if="clavePublica"
-                  ref="referenciaCamposTarjeta"
-                  :key="'mp-fields-' + clavePublica"
-                  :public-key="clavePublica"
-                  @ready="manejarCamposListos"
-                  @error="manejarErrorCampos"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Nombre del Titular
-                </label>
-                <input
-                  v-model="nombreTitular"
-                  type="text"
-                  placeholder="Como aparece en la tarjeta"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Tipo de Documento
-                </label>
-                <select
-                  v-model="tipoIdentificacion"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                >
-                  <option value="DNI">DNI</option>
-                  <option value="CI">CI</option>
-                  <option value="LC">LC</option>
-                  <option value="LE">LE</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Numero de Documento
-                </label>
-                <input
-                  v-model="numeroIdentificacion"
-                  type="text"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Cuotas
-                </label>
-                <select
-                  v-model.number="cuotas"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                >
-                  <option v-for="i in 12" :key="i" :value="i">
-                    {{ i }} {{ i === 1 ? "cuota" : "cuotas" }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
+          <div class="relative w-full lg:w-60 ml-auto">
             <button
-              type="submit"
-              :disabled="cargando || !mpCargado"
-              class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {{ cargando ? "Procesando..." : "Pagar Ahora" }}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div
-        v-if="mensaje"
-        :class="
-          tipoMensaje === 'error'
-            ? 'bg-red-100 text-red-700'
-            : 'bg-green-100 text-green-700'
-        "
-        class="p-4 rounded-md mb-4"
-      >
-        {{ mensaje }}
-      </div>
-
-      <div
-        v-if="resultadoPago"
-        class="bg-green-50 border border-green-200 rounded-lg p-4"
-      >
-        <p class="text-sm font-medium text-green-900 mb-2">
-          Pago procesado exitosamente!
-        </p>
-        <p class="text-xs text-green-700">
-          ID de Orden: {{ resultadoPago.order_id }}
-        </p>
-        <p class="text-xs text-green-700">Estado: {{ resultadoPago.status }}</p>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h3 class="text-lg font-semibold mb-4">Pago con Checkout Pro</h3>
-        <p class="text-sm text-gray-600 mb-4">
-          Serás redirigido a la página segura de Mercado Pago para completar el
-          pago.
-        </p>
-
-        <form @submit.prevent="procesarCheckoutPro" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              Items del Pago
-            </label>
-            <div
-              v-for="(item, indice) in itemsCheckoutPro"
-              :key="indice"
-              class="flex gap-2 mb-2"
-            >
-              <input
-                v-model="item.title"
-                type="text"
-                placeholder="Nombre del item"
-                class="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                v-model.number="item.quantity"
-                type="number"
-                placeholder="Cantidad"
-                min="1"
-                class="w-24 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                v-model.number="item.unit_price"
-                type="number"
-                step="0.01"
-                placeholder="Precio"
-                min="0.01"
-                class="w-32 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <button
-                v-if="itemsCheckoutPro.length > 1"
-                @click="eliminarItemCheckoutPro(indice)"
-                type="button"
-                class="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-              >
-                Eliminar
-              </button>
-            </div>
-            <button
-              @click="agregarItemCheckoutPro"
               type="button"
-              class="text-sm text-blue-600 hover:text-blue-800"
+              @click="togglePriorityDropdown"
+              class="w-full border border-gray-200 rounded-md py-2 pl-12 pr-3 text-sm text-left focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal cursor-pointer flex items-center"
             >
-              + Agregar Item
+              <Icon
+                name="filter"
+                size="20"
+                class="text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
+              />
+              <span class="truncate pr-6">Prioridad: {{ selectedPriorityLabel }}</span>
+              <Icon
+                name="chevron-down"
+                size="16"
+                :class="[
+                  'ml-auto text-gray-500 transition-transform duration-200',
+                  isPriorityDropdownOpen ? 'rotate-180' : 'rotate-0',
+                ]"
+              />
             </button>
-          </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Nombre
-              </label>
-              <input
-                v-model="pagadorCheckoutPro.name"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                Apellido
-              </label>
-              <input
-                v-model="pagadorCheckoutPro.surname"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
+            <transition name="fade">
+              <ul
+                v-if="isPriorityDropdownOpen"
+                class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-sm"
+              >
+                <li
+                  v-for="option in priorityOptions"
+                  :key="option.value"
+                  @click="handlePrioritySelect(option.value)"
+                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-50 cursor-pointer"
+                >
+                  <span>{{ option.label }}</span>
+                  <Icon
+                    v-if="priorityFilter === option.value"
+                    name="check"
+                    size="16"
+                    class="text-ksp-green"
+                  />
+                </li>
+              </ul>
+            </transition>
           </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
-            <input
-              v-model="pagadorCheckoutPro.email"
-              type="email"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md"
-              required
-            />
-          </div>
-
-          <div class="flex gap-4">
+          
+          <div class="relative w-full lg:w-60">
             <button
-              type="submit"
-              :disabled="cargandoCheckoutPro"
-              class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              type="button"
+              @click="toggleStatusDropdown"
+              class="w-full border border-gray-200 rounded-md py-2 pl-12 pr-3 text-sm text-left focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal cursor-pointer flex items-center"
             >
-              {{
-                cargandoCheckoutPro ? "Creando pago..." : "Ir a Mercado Pago"
-              }}
+              <Icon
+                name="filter"
+                size="20"
+                class="text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
+              />
+              <span class="truncate pr-6">Estado: {{ selectedStatusLabel }}</span>
+              <Icon
+                name="chevron-down"
+                size="16"
+                :class="[
+                  'ml-auto text-gray-500 transition-transform duration-200',
+                  isStatusDropdownOpen ? 'rotate-180' : 'rotate-0',
+                ]"
+              />
             </button>
+
+            <transition name="fade">
+              <ul
+                v-if="isStatusDropdownOpen"
+                class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-sm"
+              >
+                <li
+                  v-for="option in statusOptions"
+                  :key="option.value"
+                  @click="handleStatusSelect(option.value)"
+                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-50 cursor-pointer"
+                >
+                  <span>{{ option.label }}</span>
+                  <Icon
+                    v-if="statusFilter === option.value"
+                    name="check"
+                    size="16"
+                    class="text-ksp-green"
+                  />
+                </li>
+              </ul>
+            </transition>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div class="mt-4">
+          <DataTable
+            :columns="requestColumns"
+            :data="paginatedRequests"
+            :pagination="paginationState"
+            @page-change="handlePageChange"
+            @update:itemsPerPage="handleItemsPerPageChange"
+          >
+            <template #cell-priority="{ value }">
+              <span
+                class="px-3 py-1 rounded-full text-xs font-semibold capitalize"
+                :class="priorityBadgeClass(value)"
+              >
+                {{ value }}
+              </span>
+            </template>
+
+            <template #cell-status="{ value }">
+              <span
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"
+                :class="statusBadgeClass(value)"
+              >
+                <Icon :name="statusIconName(value)" size="14" />
+                {{ value }}
+              </span>
+            </template>
+
+            <template #cell-actions>
+              <button
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-[#465E77] hover:bg-[#324D68] transition-colors cursor-pointer"
+              >
+                <Icon name="eye" size="16" />
+                Ver detalles
+              </button>
+            </template>
+          </DataTable>
+        </div>
+      </Card>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from "vue";
-import axios from "../../store/token";
-import MercadoPagoCardFields from "../../components/payments/MercadoPagoCardFields.vue";
+import { computed, ref, watch } from "vue";
+import Button from "../../components/ui/atoms/Button.vue";
+import Icon from "../../components/ui/atoms/Icon.vue";
+import Card from "../../components/ui/atoms/Card.vue";
+import DataTable from "../../components/ui/organisms/DataTable.vue";
 
-const cargando = ref(false);
-const mensaje = ref("");
-const tipoMensaje = ref("");
-const resultadoPago = ref(null);
-const mpCargado = ref(false);
-const componenteCamposTarjeta = ref(null);
-const clavePublica = ref("");
-const cargandoCheckoutPro = ref(false);
-
-const itemsPago = reactive([
+const requests = ref([
   {
-    title: "",
-    quantity: 1,
-    unit_price: 0,
-    currency_id: "MXN",
+    id: "SOL-2301",
+    type: "Soporte técnico",
+    subject: "Error al iniciar sesión",
+    date: "2024-07-05",
+    priority: "Alta",
+    status: "En progreso",
+  },
+  {
+    id: "SOL-2299",
+    type: "Facturación",
+    subject: "Revisión de factura automática",
+    date: "2024-07-02",
+    priority: "Media",
+    status: "Pendiente",
+  },
+  {
+    id: "SOL-2295",
+    type: "Implementación",
+    subject: "Configuración multi-sede",
+    date: "2024-06-28",
+    priority: "Alta",
+    status: "Resuelto",
+  },
+  {
+    id: "SOL-2292",
+    type: "Integraciones",
+    subject: "API retorna error 500",
+    date: "2024-06-25",
+    priority: "Crítica",
+    status: "Abierta",
+  },
+  {
+    id: "SOL-2288",
+    type: "Capacitación",
+    subject: "Sesión para nuevos usuarios",
+    date: "2024-06-20",
+    priority: "Baja",
+    status: "Cerrado",
+  },
+  {
+    id: "SOL-2281",
+    type: "Soporte técnico",
+    subject: "Migración de base de datos",
+    date: "2024-06-18",
+    priority: "Crítica",
+    status: "En espera",
+  },
+  {
+    id: "SOL-2275",
+    type: "Facturación",
+    subject: "Nota de crédito",
+    date: "2024-06-12",
+    priority: "Media",
+    status: "Resuelto",
+  },
+  {
+    id: "SOL-2269",
+    type: "Seguridad",
+    subject: "Revisión de accesos",
+    date: "2024-06-08",
+    priority: "Alta",
+    status: "Pendiente",
   },
 ]);
 
-const pagador = reactive({
-  name: "",
-  surname: "",
-  email: "",
-});
-
-const nombreTitular = ref("");
-const tipoIdentificacion = ref("DNI");
-const numeroIdentificacion = ref("");
-const cuotas = ref(1);
-
-const itemsCheckoutPro = reactive([
+const requestColumns = [
+  { key: "id", label: "ID solicitud", headerClass: "whitespace-nowrap" },
+  { key: "type", label: "Tipo" },
   {
-    title: "",
-    quantity: 1,
-    unit_price: 0,
-    currency_id: "MXN",
+    key: "subject",
+    label: "Asunto",
+    headerClass: "min-w-[200px]",
   },
-]);
+  { key: "date", label: "Fecha", headerClass: "whitespace-nowrap" },
+  { key: "priority", label: "Prioridad" },
+  { key: "status", label: "Estado" },
+  {
+    key: "actions",
+    label: "Acciones",
+    headerClass: "text-right",
+    cellClass: "text-right",
+  },
+];
 
-const pagadorCheckoutPro = reactive({
-  name: "",
-  surname: "",
-  email: "",
+const statusOptions = computed(() => {
+  const uniqueStatuses = Array.from(
+    new Set(requests.value.map((request) => request.status))
+  );
+
+  return [
+    { label: "Todos", value: "all" },
+    ...uniqueStatuses.map((status) => ({ label: status, value: status })),
+  ];
 });
 
-const agregarItem = () => {
-  itemsPago.push({
-    title: "",
-    quantity: 1,
-    unit_price: 0,
-    currency_id: "MXN",
-  });
-};
+const priorityOptions = computed(() => {
+  const uniquePriorities = Array.from(
+    new Set(requests.value.map((request) => request.priority))
+  );
 
-const eliminarItem = (indice) => {
-  itemsPago.splice(indice, 1);
-};
-
-const agregarItemCheckoutPro = () => {
-  itemsCheckoutPro.push({
-    title: "",
-    quantity: 1,
-    unit_price: 0,
-    currency_id: "MXN",
-  });
-};
-
-const eliminarItemCheckoutPro = (indice) => {
-  itemsCheckoutPro.splice(indice, 1);
-};
-
-const inicializarMercadoPago = async () => {
-  try {
-    const respuesta = await axios.get("/payments/public-key");
-    if (respuesta.data.success) {
-      clavePublica.value = respuesta.data.public_key;
-    } else {
-      throw new Error("No se pudo obtener la public key");
-    }
-  } catch (error) {
-    console.error("Error al inicializar Mercado Pago:", error);
-    mensaje.value = "Error al cargar el sistema de pagos: " + error.message;
-    tipoMensaje.value = "error";
-  }
-};
-
-const manejarCamposListos = (campos) => {
-  componenteCamposTarjeta.value = campos;
-  mpCargado.value = true;
-};
-
-const manejarErrorCampos = (error) => {
-  mensaje.value =
-    "Error al inicializar los campos de tarjeta: " + error.message;
-  tipoMensaje.value = "error";
-  mpCargado.value = false;
-};
-
-const procesarPago = async () => {
-  cargando.value = true;
-  mensaje.value = "";
-  tipoMensaje.value = "";
-  resultadoPago.value = null;
-
-  try {
-    if (
-      !componenteCamposTarjeta.value ||
-      !componenteCamposTarjeta.value.crearTokenTarjeta
-    ) {
-      throw new Error("Los campos de tarjeta no listos");
-    }
-
-    const itemsValidos = itemsPago.map((item) => ({
-      title: item.title,
-      quantity: parseInt(item.quantity),
-      unit_price: parseFloat(item.unit_price),
-      currency_id: item.currency_id || "MXN",
-    }));
-
-    if (
-      itemsValidos.some(
-        (item) => !item.title || item.quantity <= 0 || item.unit_price <= 0
-      )
-    ) {
-      throw new Error("Completa todos los campos de los items");
-    }
-
-    if (!componenteCamposTarjeta.value.validar()) {
-      throw new Error(
-        "Por favor corrige los errores en los campos de la tarjeta"
-      );
-    }
-
-    if (!nombreTitular.value || !numeroIdentificacion.value) {
-      throw new Error("Por favor completa todos los campos de la tarjeta");
-    }
-
-    const montoTotal = itemsValidos.reduce(
-      (suma, item) => suma + item.quantity * item.unit_price,
-      0
-    );
-
-    const token = await componenteCamposTarjeta.value.crearTokenTarjeta(
-      nombreTitular.value,
-      tipoIdentificacion.value,
-      numeroIdentificacion.value
-    );
-
-    if (!token || !token.id) {
-      throw new Error("Error al generar el token de la tarjeta");
-    }
-
-    const datosOrden = {
-      amount: montoTotal,
-      payer_email: pagador.email,
-      card_token: token.id,
-      installments: cuotas.value,
-      external_reference: `ref_${Date.now()}`,
-    };
-
-    alert(
-      "ENVIANDO A API (create-order):\n" + JSON.stringify(datosOrden, null, 2)
-    );
-
-    const respuesta = await axios.post("/payments/create-order", datosOrden);
-
-    alert(
-      "RECIBIDO DE API (create-order):\n" +
-        JSON.stringify(respuesta.data, null, 2)
-    );
-
-    if (respuesta.data.success) {
-      resultadoPago.value = {
-        order_id: respuesta.data.order_id,
-        status: respuesta.data.status,
-      };
-      mensaje.value = "Pago procesado exitosamente!";
-      tipoMensaje.value = "success";
-
-      itemsPago.splice(1);
-      itemsPago[0] = {
-        title: "",
-        quantity: 1,
-        unit_price: 0,
-        currency_id: "MXN",
-      };
-      pagador.name = "";
-      pagador.surname = "";
-      pagador.email = "";
-      nombreTitular.value = "";
-      numeroIdentificacion.value = "";
-
-      if (
-        componenteCamposTarjeta.value &&
-        componenteCamposTarjeta.value.datosTarjeta
-      ) {
-        componenteCamposTarjeta.value.datosTarjeta.numeroTarjeta = "";
-        componenteCamposTarjeta.value.datosTarjeta.fechaVencimiento = "";
-        componenteCamposTarjeta.value.datosTarjeta.codigoSeguridad = "";
-      }
-    } else {
-      throw new Error(respuesta.data.message || "Error al procesar el pago");
-    }
-  } catch (error) {
-    const datosError = error.response?.data || {};
-    mensaje.value =
-      datosError.message || error.message || "Error al procesar el pago";
-    tipoMensaje.value = "error";
-
-    if (datosError.use_checkout_pro) {
-      mensaje.value += " Entendiste crje se uso checkout pro";
-    }
-
-    console.error("Error al procesar pago:", error);
-  } finally {
-    cargando.value = false;
-  }
-};
-
-const procesarCheckoutPro = async () => {
-  cargandoCheckoutPro.value = true;
-  mensaje.value = "";
-  tipoMensaje.value = "";
-  resultadoPago.value = null;
-
-  try {
-    const itemsValidos = itemsCheckoutPro.map((item) => ({
-      title: item.title,
-      quantity: parseInt(item.quantity),
-      unit_price: parseFloat(item.unit_price),
-      currency_id: item.currency_id || "MXN",
-    }));
-
-    if (
-      itemsValidos.some(
-        (item) => !item.title || item.quantity <= 0 || item.unit_price <= 0
-      )
-    ) {
-      throw new Error("Por favor completa todos los campos de los items");
-    }
-
-    if (
-      !pagadorCheckoutPro.name ||
-      !pagadorCheckoutPro.surname ||
-      !pagadorCheckoutPro.email
-    ) {
-      throw new Error("Por favor completa todos los datos del pagador");
-    }
-
-    const datosPreferencia = {
-      items: itemsValidos,
-      payer: {
-        name: pagadorCheckoutPro.name,
-        surname: pagadorCheckoutPro.surname,
-        email: pagadorCheckoutPro.email,
-      },
-      external_reference: `ref_${Date.now()}`,
-    };
-
-    alert(
-      "ENVIANDO A API (create-preference):\n" +
-        JSON.stringify(datosPreferencia, null, 2)
-    );
-
-    const respuesta = await axios.post(
-      "/payments/create-preference",
-      datosPreferencia
-    );
-
-    alert(
-      "RECIBIDO DE API (create-preference):\n" +
-        JSON.stringify(respuesta.data, null, 2)
-    );
-
-    if (respuesta.data.success) {
-      const urlRedireccion =
-        respuesta.data.sandbox_init_point || respuesta.data.init_point;
-
-      if (urlRedireccion) {
-        alert(
-          "REDIRIGIENDO:\n" +
-            "Preference ID: " +
-            respuesta.data.preference_id +
-            "\n" +
-            "URL: " +
-            urlRedireccion +
-            "\n" +
-            "Tipo: " +
-            (respuesta.data.sandbox_init_point ? "SANDBOX" : "PRODUCCIÓN")
-        );
-
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        window.location.href = urlRedireccion;
-      } else {
-        throw new Error("No se pudo obtener la URL de pago");
-      }
-    } else {
-      throw new Error(
-        respuesta.data.message || "Error al crear la preferencia de pago"
-      );
-    }
-  } catch (error) {
-    const datosError = error.response?.data || {};
-    mensaje.value =
-      datosError.message || error.message || "Error al procesar el pago";
-    tipoMensaje.value = "error";
-    console.error("Error al procesar Checkout Pro:", error);
-  } finally {
-    cargandoCheckoutPro.value = false;
-  }
-};
-
-onMounted(async () => {
-  await inicializarMercadoPago();
+  return [
+    { label: "Todas", value: "all" },
+    ...uniquePriorities.map((priority) => ({ label: priority, value: priority })),
+  ];
 });
+
+const searchQuery = ref("");
+const statusFilter = ref("all");
+const priorityFilter = ref("all");
+const isStatusDropdownOpen = ref(false);
+const isPriorityDropdownOpen = ref(false);
+const itemsPerPage = ref(10);
+const currentPage = ref(1);
+
+const totalRequests = computed(() => requests.value.length);
+const inProgressRequests = computed(
+  () => requests.value.filter((request) => request.status === "En progreso").length
+);
+const completedRequests = computed(
+  () =>
+    requests.value.filter((request) => ["Resuelto", "Cerrado"].includes(request.status)).length
+);
+const pendingRequests = computed(
+  () =>
+    requests.value.filter((request) => ["Pendiente", "Abierta", "En espera"].includes(request.status)).length
+);
+
+const selectedStatusLabel = computed(() => {
+  const option = statusOptions.value.find(
+    (item) => item.value === statusFilter.value
+  );
+  return option ? option.label : "Todos los estados";
+});
+
+const selectedPriorityLabel = computed(() => {
+  const option = priorityOptions.value.find(
+    (item) => item.value === priorityFilter.value
+  );
+  return option ? option.label : "Todas las prioridades";
+});
+
+const filteredRequests = computed(() => {
+  const term = searchQuery.value.trim().toLowerCase();
+  const status = statusFilter.value;
+  const priority = priorityFilter.value;
+
+  return requests.value.filter((request) => {
+    const matchesTerm = term
+      ? request.id.toLowerCase().includes(term) ||
+        request.subject.toLowerCase().includes(term) ||
+        request.type.toLowerCase().includes(term)
+      : true;
+
+    const matchesStatus =
+      status === "all"
+        ? true
+        : request.status.toLowerCase() === status.toLowerCase();
+
+    const matchesPriority =
+      priority === "all"
+        ? true
+        : request.priority.toLowerCase() === priority.toLowerCase();
+
+    return matchesTerm && matchesStatus && matchesPriority;
+  });
+});
+
+const totalPages = computed(() =>
+  Math.max(1, Math.ceil(filteredRequests.value.length / itemsPerPage.value))
+);
+
+const paginatedRequests = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  return filteredRequests.value.slice(start, start + itemsPerPage.value);
+});
+
+const paginationState = computed(() => ({
+  currentPage: currentPage.value,
+  totalPages: totalPages.value,
+  itemsPerPage: itemsPerPage.value,
+}));
+
+watch([searchQuery, statusFilter, priorityFilter], () => {
+  currentPage.value = 1;
+});
+
+const handlePageChange = (page) => {
+  if (page < 1 || page > totalPages.value) return;
+  currentPage.value = page;
+};
+
+const handleItemsPerPageChange = (value) => {
+  itemsPerPage.value = value;
+  currentPage.value = 1;
+};
+
+const toggleStatusDropdown = () => {
+  isStatusDropdownOpen.value = !isStatusDropdownOpen.value;
+};
+
+const handleStatusSelect = (value) => {
+  statusFilter.value = value;
+  isStatusDropdownOpen.value = false;
+};
+
+const togglePriorityDropdown = () => {
+  isPriorityDropdownOpen.value = !isPriorityDropdownOpen.value;
+};
+
+const handlePrioritySelect = (value) => {
+  priorityFilter.value = value;
+  isPriorityDropdownOpen.value = false;
+};
+
+const priorityBadgeClass = (priority) => {
+  const map = {
+    critica: "bg-red-600 text-white",
+    alta: "bg-orange-500 text-white",
+    media: "bg-yellow-500 text-white",
+    baja: "bg-emerald-600 text-white",
+  };
+
+  return map[priority.toLowerCase()] || "bg-gray-500 text-white";
+};
+
+const statusBadgeClass = (status) => {
+  const map = {
+    resuelto: "bg-green-600 text-white",
+    "en progreso": "bg-blue-600 text-white",
+    pendiente: "bg-amber-500 text-white",
+    "en espera": "bg-orange-600 text-white",
+    abierta: "bg-slate-600 text-white",
+    cerrado: "bg-zinc-600 text-white",
+  };
+
+  return map[status.toLowerCase()] || "bg-gray-500 text-white";
+};
+
+const statusIconName = (status) => {
+  const map = {
+    resuelto: "check-round",
+    "en progreso": "clock-round",
+    pendiente: "alert-circle",
+    "en espera": "pause",
+    abierta: "chat-bubble",
+    cerrado: "check-round",
+  };
+
+  return map[status.toLowerCase()] || "chat-bubble";
+};
 </script>

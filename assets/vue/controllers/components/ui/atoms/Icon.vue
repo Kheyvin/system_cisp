@@ -159,6 +159,9 @@
     <line v-if="name === 'plus'" x1="12" y1="5" x2="12" y2="19"></line>
     <line v-if="name === 'plus'" x1="5" y1="12" x2="19" y2="12"></line>
 
+    <line v-if="name === 'pause'" x1="9" y1="5" x2="9" y2="19"></line>
+    <line v-if="name === 'pause'" x1="15" y1="5" x2="15" y2="19"></line>
+
     <path
       v-if="name === 'chat-bubble'"
       d="M4 5h16v11H8l-4 4V5Z"
