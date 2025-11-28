@@ -47,6 +47,10 @@
     <polyline v-if="name === 'download'" points="7 10 12 15 17 10"></polyline>
     <line v-if="name === 'download'" x1="12" y1="15" x2="12" y2="3"></line>
 
+    <path v-if="name === 'upload'" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline v-if="name === 'upload'" points="17 8 12 3 7 8"></polyline>
+    <line v-if="name === 'upload'" x1="12" y1="3" x2="12" y2="21"></line>
+
     <path v-if="name === 'wifi'" d="M5 12.55a11 11 0 0 1 14.08 0"></path>
     <path v-if="name === 'wifi'" d="M1.42 9a16 16 0 0 1 21.16 0"></path>
     <path v-if="name === 'wifi'" d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>

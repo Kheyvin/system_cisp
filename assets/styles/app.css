@@ -1,19 +1,235 @@
+/* 1) tu fuente (ok) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @source not "../../public";
 
 @theme {
-    --color-principal: #15B8A6;
-    --color-keppel-50: #f0fdfa;
-    --color-keppel-100: #ccfbf1;
-    --color-keppel-200: #9af5e4;
-    --color-keppel-300: #5fe9d3;
-    --color-keppel-400: #2ed3be;
-    --color-keppel-500: #15b8a6;
-    --color-keppel-600: #0e9387;
-    --color-keppel-700: #10756e;
-    --color-keppel-800: #115e59;
-    --color-keppel-900: #134e4a;
-    --color-keppel-950: #042f2e;
-    --color-keppel: #15B8A6;
+    /* ================ FONTS ================ */
+    --font-sans:
+        'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+    /* Color principal */
+    --color-ksp-principal: #15B8A6;
+    --color-ksp-keppel-50: #f0fdfa;
+    --color-ksp-keppel-100: #ccfbf1;
+    --color-ksp-keppel-200: #9af5e4;
+    --color-ksp-keppel-300: #5fe9d3;
+    --color-ksp-keppel-400: #2ed3be;
+    --color-ksp-keppel-500: #15b8a6;
+    --color-ksp-keppel-600: #0e9387;
+    --color-ksp-keppel-700: #10756e;
+    --color-ksp-keppel-800: #115e59;
+    --color-ksp-keppel-900: #134e4a;
+    --color-ksp-keppel-950: #042f2e;
+    --color-ksp-keppel: #15B8A6;
 
+    /* Semáforo */
+  --color-ksp-semaforo-50: #04bc00;
+  --color-ksp-semaforo-100: #bc9300;
+  --color-ksp-semaforo-200: #fd6f08;
+  --color-ksp-semaforo-300: #333333;
+  --color-ksp-semaforo-400: #48e1ff;
+  --color-ksp-semaforo-500: #ff0000;
+  --color-ksp-semaforo-600: #fff3cd;
+  --color-ksp-semaforo-700: #ffcdcd4d;
+  --color-ksp-semaforo: #bc9300; /* DEFAULT */
+
+  /* White */
+  --color-ksp-white-50: #ffffff;
+  --color-ksp-white-100: #efefef;
+  --color-ksp-white-200: #dcdcdc;
+  --color-ksp-white-300: #bdbdbd;
+  --color-ksp-white-400: #989898;
+  --color-ksp-white-500: #7c7c7c;
+  --color-ksp-white-600: #656565;
+  --color-ksp-white-700: #525252;
+  --color-ksp-white-800: #464646;
+  --color-ksp-white-900: #3d3d3d;
+  --color-ksp-white-950: #292929;
+  --color-ksp-white: #ffffff;
+
+  /* Blue */
+  --color-ksp-blue-50: #f0f6ff;
+  --color-ksp-blue-100: #e4eeff;
+  --color-ksp-blue-200: #cde0ff;
+  --color-ksp-blue-300: #a6c5ff;
+  --color-ksp-blue-400: #739dff;
+  --color-ksp-blue-500: #3b6bff;
+  --color-ksp-blue-600: #1440ff;
+  --color-ksp-blue-700: #0032ff;
+  --color-ksp-blue-800: #012bd6;
+  --color-ksp-blue-900: #0325af;
+  --color-ksp-blue-950: #001d77;
+  --color-ksp-blue: #0000AF;
+  /*  --color-ksp-blue: #0032ff;*/
+
+  /* Sky blue */
+  --color-ksp-sky-blue-50: #edfcff;
+  --color-ksp-sky-blue-100: #d6f7ff;
+  --color-ksp-sky-blue-200: #b5f3ff;
+  --color-ksp-sky-blue-300: #83eeff;
+  --color-ksp-sky-blue-400: #48e1ff;
+  --color-ksp-sky-blue-500: #1ec7ff;
+  --color-ksp-sky-blue-600: #06acff;
+  --color-ksp-sky-blue-700: #0099ff;
+  --color-ksp-sky-blue-800: #0874c5;
+  --color-ksp-sky-blue-900: #0d629b;
+  --color-ksp-sky-blue-950: #0e3b5d;
+  --color-ksp-sky-blue: #0099ff;
+
+  /* Dark blue */
+  --color-ksp-dark-blue-50: #e6e9ed;
+  --color-ksp-dark-blue-100: #ccd3dc;
+  --color-ksp-dark-blue-200: #99a6b9;
+  --color-ksp-dark-blue-300: #667a95;
+  --color-ksp-dark-blue-400: #334d72;
+  --color-ksp-dark-blue-500: #00214f;
+  --color-ksp-dark-blue-600: #001a3f;
+  --color-ksp-dark-blue-700: #00142f;
+  --color-ksp-dark-blue-800: #000d20;
+  --color-ksp-dark-blue-900: #000710;
+  --color-ksp-dark-blue: #00214f;
+
+  /* Blue ocean */
+  --color-ksp-blue-ocean-50: #f2f8fd;
+  --color-ksp-blue-ocean-100: #e3eefb;
+  --color-ksp-blue-ocean-200: #c1ddf6;
+  --color-ksp-blue-ocean-300: #8ac1ef;
+  --color-ksp-blue-ocean-400: #54a6e5;
+  --color-ksp-blue-ocean-500: #2586d2;
+  --color-ksp-blue-ocean-600: #1769b2;
+  --color-ksp-blue-ocean-700: #145490;
+  --color-ksp-blue-ocean-800: #144878;
+  --color-ksp-blue-ocean-900: #163d64;
+  --color-ksp-blue-ocean-950: #0f2842;
+  --color-ksp-blue-ocean: #54a6e5;
+
+  /* Green */
+  --color-ksp-green-50: #eefff6;
+  --color-ksp-green-100: #d8ffed;
+  --color-ksp-green-200: #b3ffdb;
+  --color-ksp-green-300: #79fcbf;
+  --color-ksp-green-400: #37f19c;
+  --color-ksp-green-500: #0dda7d;
+  --color-ksp-green-600: #04b263;
+  --color-ksp-green-650: #04b363;
+  --color-ksp-green-700: #078e52;
+  --color-ksp-green-800: #0c6f44;
+  --color-ksp-green-900: #0c5b39;
+  --color-ksp-green-950: #00331e;
+  --color-ksp-green: #04b263;
+
+  --color-ksp-screamin-green-50: #eaffe5;
+  --color-ksp-screamin-green-100: #cfffc7;
+  --color-ksp-screamin-green-200: #a2ff95;
+  --color-ksp-screamin-green-300: #82ff76;
+  --color-ksp-screamin-green-400: #35f625;
+  --color-ksp-screamin-green-500: #11dd05;
+  --color-ksp-screamin-green-600: #06b100;
+  --color-ksp-screamin-green-700: #088605;
+  --color-ksp-screamin-green-800: #0d690b;
+  --color-ksp-screamin-green-900: #0e590f;
+  --color-ksp-screamin-green-950: #013203;
+  --color-ksp-screamin-green: #82ff76;
+
+  /* Orange */
+  --color-ksp-orange-50: #fff6ed;
+  --color-ksp-orange-100: #ffecd4;
+  --color-ksp-orange-200: #ffd4a8;
+  --color-ksp-orange-300: #ffb671;
+  --color-ksp-orange-400: #ff8d3a;
+  --color-ksp-orange-500: #fe6b11;
+  --color-ksp-orange-600: #ef5007;
+  --color-ksp-orange-700: #c63a08;
+  --color-ksp-orange-800: #9d2f0f;
+  --color-ksp-orange-900: #7e2910;
+  --color-ksp-orange-950: #441106;
+  --color-ksp-orange: #ff8d3a;
+
+  /* Dark */
+  --color-ksp-dark-50: #f6f6f6;
+  --color-ksp-dark-100: #e7e7e7;
+  --color-ksp-dark-200: #d1d1d1;
+  --color-ksp-dark-300: #b0b0b0;
+  --color-ksp-dark-400: #888888;
+  --color-ksp-dark-450: #999999;
+  --color-ksp-dark-500: #6d6d6d;
+  --color-ksp-dark-600: #5e6366;
+  --color-ksp-dark-700: #4f4f4f;
+  --color-ksp-dark-800: #454545;
+  --color-ksp-dark-900: #333333;
+  --color-ksp-dark-950: #262626;
+  --color-ksp-dark-divider: #dcdcdc;
+  --color-ksp-dark: #333333;
+
+  /* Brown */
+  --color-ksp-brown-50: #fff7ea;
+  --color-ksp-brown-100: #ffedcf;
+  --color-ksp-brown-200: #ffd79e;
+  --color-ksp-brown-300: #ffb861;
+  --color-ksp-brown-400: #ff8c21;
+  --color-ksp-brown-500: #ff6a00;
+  --color-ksp-brown-600: #ff4b00;
+  --color-ksp-brown-700: #dc3300;
+  --color-ksp-brown-800: #ad2800;
+  --color-ksp-brown-900: #8b2403;
+  --color-ksp-brown-950: #4b0e00;
+  --color-ksp-brown: #8b2403;
+
+  /* Black */
+  --color-ksp-black-50: #f6f6f6;
+  --color-ksp-black-100: #e7e7e7;
+  --color-ksp-black-200: #d1d1d1;
+  --color-ksp-black-300: #b0b0b0;
+  --color-ksp-black-400: #888888;
+  --color-ksp-black-500: #6d6d6d;
+  --color-ksp-black-600: #5d5d5d;
+  --color-ksp-black-700: #4f4f4f;
+  --color-ksp-black-800: #454545;
+  --color-ksp-black-900: #3d3d3d;
+  --color-ksp-black-950: #222222;
+  --color-ksp-black-1000: #1c1c1c;
+  --color-ksp-black: #000000;
+
+  /* Red */
+  --color-ksp-red-50: #fff5ec;
+  --color-ksp-red-100: #ffe8d3;
+  --color-ksp-red-200: #ffcea5;
+  --color-ksp-red-300: #ffab6d;
+  --color-ksp-red-400: #ff7c32;
+  --color-ksp-red-500: #ff3333;
+  --color-ksp-red-600: #ff3d00;
+  --color-ksp-red-700: #cc2802;
+  --color-ksp-red-800: #a1210b;
+  --color-ksp-red-900: #821e0c;
+  --color-ksp-red-950: #460b04;
+  --color-ksp-red: #ff3d00;
+
+  /* Yellow */
+  --color-ksp-yellow-50: #fefde8;
+  --color-ksp-yellow-100: #fffdc2;
+  --color-ksp-yellow-200: #fff688;
+  --color-ksp-yellow-300: #ffea44;
+  --color-ksp-yellow-400: #fed811;
+  --color-ksp-yellow-500: #edbf05;
+  --color-ksp-yellow-600: #d69a01;
+  --color-ksp-yellow-700: #a36905;
+  --color-ksp-yellow-800: #87520c;
+  --color-ksp-yellow-900: #724311;
+  --color-ksp-yellow-950: #432305;
+  --color-ksp-yellow: #fed811;
+
+  /* Muted */
+  --color-ksp-muted-50: #f6f6f7;
+  --color-ksp-muted-100: #efeff0;
+  --color-ksp-muted-200: #e1e2e4;
+  --color-ksp-muted-300: #c5c6c9;
+  --color-ksp-muted-400: #babbbf;
+  --color-ksp-muted-500: #a7a7ad;
+  --color-ksp-muted-600: #929299;
+  --color-ksp-muted-700: #7f7e84;
+  --color-ksp-muted-800: #68676c;
+  --color-ksp-muted-900: #565659;
+  --color-ksp-muted-950: #323234;
+  --color-ksp-muted: #c5c6c9;
 }

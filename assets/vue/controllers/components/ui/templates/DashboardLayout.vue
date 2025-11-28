@@ -6,7 +6,7 @@
     <!-- Main Content -->
     <div
       class="flex-1 flex flex-col transition-all duration-300"
-      :class="{ 'ml-64': isSidebarOpen, 'ml-0': !isSidebarOpen }"
+      :class="isSidebarOpen ? 'ml-64' : 'ml-20'"
     >
       <Header :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
 

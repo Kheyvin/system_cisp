@@ -1,10 +1,13 @@
 <template>
-  <NavLink :to="to" class="justify-between group">
-    <div class="flex items-center">
-      <Icon :name="icon" size="20" class="mr-3" />
-      <span>{{ label }}</span>
+  <NavLink :to="to" :collapsed="collapsed">
+    <div
+      class="flex items-center"
+      :class="collapsed ? 'justify-center' : ''"
+    >
+      <Icon :name="icon" size="20" :class="collapsed ? '' : 'mr-3'" />
+      <span v-if="!collapsed">{{ label }}</span>
     </div>
-    <Badge v-if="badgeCount > 0">{{ badgeCount }}</Badge>
+    <Badge v-if="!collapsed && badgeCount > 0">{{ badgeCount }}</Badge>
   </NavLink>
 </template>
 
@@ -29,6 +32,10 @@ defineProps({
   badgeCount: {
     type: Number,
     default: 0,
+  },
+  collapsed: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>

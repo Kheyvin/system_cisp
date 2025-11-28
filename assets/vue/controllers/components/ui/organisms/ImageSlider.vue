@@ -15,7 +15,7 @@
           <h3 class="text-lg font-bold uppercase tracking-wider mb-2">Promocion Especial</h3>
           <a
             :href="slide.link"
-            class="inline-block px-6 py-2 text-white font-semibold rounded transition-colors duration-200 hover:bg-keppel-600 bg-principal"
+            class="inline-block px-6 py-2 text-white font-semibold rounded transition-colors duration-200 hover:bg-ksp-keppel-600 bg-ksp-principal"
           >
             Ver detalles
           </a>
