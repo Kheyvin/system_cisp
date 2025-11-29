@@ -229,6 +229,15 @@
     <circle v-if="name === 'alert-circle'" cx="12" cy="12" r="9"></circle>
     <line v-if="name === 'alert-circle'" x1="12" y1="8" x2="12" y2="13"></line>
     <line v-if="name === 'alert-circle'" x1="12" y1="17" x2="12.01" y2="17"></line>
+
+    <path
+      v-if="name === 'shield-check'"
+      d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+    ></path>
+    <polyline
+      v-if="name === 'shield-check'"
+      points="9.5 12.5 12 15 15 10"
+    ></polyline>
   </svg>
 </template>
 
