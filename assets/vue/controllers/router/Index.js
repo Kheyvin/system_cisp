@@ -9,6 +9,7 @@ import Requests from '../views/dashboard/Requests.vue';
 import Promotions from '../views/dashboard/Promotions.vue';
 import Payments from '../views/dashboard/Payments.vue';
 import Settings from '../views/dashboard/Settings.vue';
+import Support from '../views/dashboard/Support.vue';
 
 const routes = [
   {
@@ -50,6 +51,12 @@ const routes = [
     path: '/dashboard/configuracion',
     name: 'Settings',
     component: Settings,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+  {
+    path: '/dashboard/soporte',
+    name: 'Support',
+    component: Support,
     meta: { layout: DashboardLayout, requiresAuth: false },
   },
  /*  {

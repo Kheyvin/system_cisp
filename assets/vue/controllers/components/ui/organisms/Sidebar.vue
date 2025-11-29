@@ -5,8 +5,8 @@
   >
     <div class="flex items-center justify-center h-16">
       <img
-        :src="isOpen ? '/images/conectica.png' : '/images/logo.png'"
-        alt="Logo Conectica"
+        :src="isOpen ? '/images/ksperu.svg' : '/images/ksperulogo.png'"
+        alt="Logo KSPeru"
         :class="isOpen ? 'w-fit p-4' : 'w-10'"
       />
     </div>

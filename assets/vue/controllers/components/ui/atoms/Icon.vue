@@ -212,6 +212,9 @@
     <line v-if="name === 'pause'" x1="9" y1="5" x2="9" y2="19"></line>
     <line v-if="name === 'pause'" x1="15" y1="5" x2="15" y2="19"></line>
 
+    <line v-if="name === 'x'" x1="18" y1="6" x2="6" y2="18"></line>
+    <line v-if="name === 'x'" x1="6" y1="6" x2="18" y2="18"></line>
+
     <path
       v-if="name === 'chat-bubble'"
       d="M4 5h16v11H8l-4 4V5Z"
@@ -238,6 +241,62 @@
       v-if="name === 'shield-check'"
       points="9.5 12.5 12 15 15 10"
     ></polyline>
+
+    <rect
+      v-if="name === 'monitor'"
+      x="2"
+      y="3"
+      width="20"
+      height="14"
+      rx="2"
+      ry="2"
+    ></rect>
+    <line v-if="name === 'monitor'" x1="8" y1="21" x2="16" y2="21"></line>
+    <line v-if="name === 'monitor'" x1="12" y1="17" x2="12" y2="21"></line>
+
+    <rect
+      v-if="name === 'smartphone'"
+      x="5"
+      y="2"
+      width="14"
+      height="20"
+      rx="2"
+      ry="2"
+    ></rect>
+    <line v-if="name === 'smartphone'" x1="12" y1="18" x2="12.01" y2="18"></line>
+
+    <rect v-if="name === 'mail'" x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+    <polyline v-if="name === 'mail'" points="22,6 12,13 2,6"></polyline>
+
+    <path
+      v-if="name === 'user'"
+      d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+    ></path>
+    <circle v-if="name === 'user'" cx="12" cy="7" r="4"></circle>
+
+    <circle v-if="name === 'life-buoy'" cx="12" cy="12" r="10"></circle>
+    <circle v-if="name === 'life-buoy'" cx="12" cy="12" r="4"></circle>
+    <line v-if="name === 'life-buoy'" x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+    <line v-if="name === 'life-buoy'" x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+    <line v-if="name === 'life-buoy'" x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+    <line v-if="name === 'life-buoy'" x1="9.17" y1="14.83" x2="4.93" y2="19.07"></line>
+
+    <rect
+      v-if="name === 'lock'"
+      x="3"
+      y="11"
+      width="18"
+      height="11"
+      rx="2"
+      ry="2"
+    ></rect>
+    <path v-if="name === 'lock'" d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+
+    <path
+      v-if="name === 'bell'"
+      d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"
+    ></path>
+    <path v-if="name === 'bell'" d="M13.73 21a2 2 0 0 1-3.46 0"></path>
   </svg>
 </template>
 
