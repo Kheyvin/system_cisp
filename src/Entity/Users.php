@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-#[ORM\EntityListeners([PasswordHashListener::class])]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USER_NAME', fields: ['user_name'])]
 #[ApiResource(normalizationContext: ['groups' => ['users:read']], operations: [
         new Get(),
@@ -31,12 +30,12 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new GetCollection(),
         new Delete(),
         new Patch(),
-        new Get(
-            uriTemplate: '/auth/user',
-            controller: LoginApiController::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
-            name: 'auth_user'
-        )
+        // new Get(
+        //     uriTemplate: '/auth/user',
+        //     controller: LoginApiController::class,
+        //     security: "is_granted('IS_AUTHENTICATED_FULLY')",
+        //     name: 'auth_user'
+        // )
     ])]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
