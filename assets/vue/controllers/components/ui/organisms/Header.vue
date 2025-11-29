@@ -4,6 +4,7 @@
   >
     <div class="flex items-center">
       <Button
+        class="cursor-pointer"
         @click="$emit('toggle-sidebar')"
         :class="[
           'mr-4 p-2 focus:outline-none outline-none focus:ring-0 focus:ring-offset-0 transition-colors duration-200',

@@ -83,6 +83,37 @@
     <line v-if="name === 'download'" x1="12" y1="15" x2="12" y2="3"></line>
 
     <path
+      v-if="name === 'edit'"
+      d="M12 20h9"
+    ></path>
+    <path
+      v-if="name === 'edit'"
+      d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"
+    ></path>
+
+    <path
+      v-if="name === 'trash'"
+      d="M3 6h18"
+    ></path>
+    <path
+      v-if="name === 'trash'"
+      d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+    ></path>
+    <path
+      v-if="name === 'trash'"
+      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"
+    ></path>
+
+    <circle v-if="name === 'slash-circle'" cx="12" cy="12" r="9"></circle>
+    <line
+      v-if="name === 'slash-circle'"
+      x1="8"
+      y1="16"
+      x2="16"
+      y2="8"
+    ></line>
+
+    <path
       v-if="name === 'upload'"
       d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
     ></path>
@@ -122,8 +153,27 @@
       points="22 12 18 12 15 21 9 3 6 12 2 12"
     ></polyline>
 
+    <polyline
+      v-if="name === 'trend-up'"
+      points="23 6 14 15 9 10 1 18"
+    ></polyline>
+    <polyline v-if="name === 'trend-up'" points="17 6 23 6 23 12"></polyline>
+
     <circle v-if="name === 'clock'" cx="12" cy="12" r="10"></circle>
     <polyline v-if="name === 'clock'" points="12 6 12 12 16 14"></polyline>
+
+    <rect
+      v-if="name === 'calendar'"
+      x="3"
+      y="4"
+      width="18"
+      height="18"
+      rx="2"
+      ry="2"
+    ></rect>
+    <line v-if="name === 'calendar'" x1="16" y1="2" x2="16" y2="6"></line>
+    <line v-if="name === 'calendar'" x1="8" y1="2" x2="8" y2="6"></line>
+    <line v-if="name === 'calendar'" x1="3" y1="10" x2="21" y2="10"></line>
 
     <path
       v-if="name === 'gauge'"

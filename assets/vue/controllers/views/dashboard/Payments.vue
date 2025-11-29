@@ -2,16 +2,16 @@
   <div>
     <div class="flex justify-between items-center mb-6">
       <div>
-        <h2 class="text-3xl font-bold text-ksp-principal">
-          Gestión de Pagos
-        </h2>
-        <span class="text-base">Crea y gestiona tus solicitudes de soporte</span>
+        <h2 class="text-3xl font-bold text-ksp-principal">Gestión de Pagos</h2>
+        <span class="text-base"
+          >Crea y gestiona tus solicitudes de soporte</span
+        >
       </div>
       <Button
         customClass="bg-[#324D68] text-white hover:bg-[#24384c] flex items-center px-4 py-2 shadow-sm cursor-pointer"
       >
-        <Icon name="plus" size="20" class="mr-2" />
-        Nueva solicitud
+        <Icon name="dollar-sign" size="20" class="mr-2" />
+        Realizar Pago
       </Button>
     </div>
 
@@ -21,8 +21,8 @@
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
         >
           <div class="flex items-center mb-4">
-            <div class="bg-blue-100 p-2 mr-3 rounded-full">
-              <Icon name="dollar-sign" size="24" class="text-blue-600" />
+            <div class="bg-green-50 p-2 mr-3 rounded-full">
+              <Icon name="dollar-sign" size="24" class="text-ksp-green" />
             </div>
             <span class="text-gray-600 font-medium">Gasto Anual</span>
           </div>
@@ -40,16 +40,16 @@
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
         >
           <div class="flex items-center mb-4">
-            <div class="bg-yellow-100 p-2 mr-3 rounded-full">
-              <Icon name="clock" size="24" class="text-yellow-600" />
+            <div class="bg-[#E6FAF7] p-2 mr-3 rounded-full">
+              <Icon name="trend-up" size="24" class="text-[#32C1B1]" />
             </div>
-            <span class="text-gray-600 font-medium">En Progreso</span>
+            <span class="text-gray-600 font-medium">Promedio Mensual</span>
           </div>
           <div class="grow flex flex-col justify-end">
             <h3 class="text-xl font-bold text-gray-800 mb-1">
-              {{ inProgressRequests }}
+             S/ {{ averageMonthly }}
             </h3>
-            <p class="text-gray-500 text-sm">Siendo atendidas</p>
+            <p class="text-gray-500 text-sm">Gasto promedio</p>
           </div>
         </Card>
       </div>
@@ -59,16 +59,16 @@
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
         >
           <div class="flex items-center mb-4">
-            <div class="bg-green-100 p-2 mr-3 rounded-full">
-              <Icon name="check-round" size="24" class="text-green-600" />
+            <div class="bg-[#EEF2F7] p-2 mr-3 rounded-full">
+              <Icon name="calendar" size="24" class="text-[#4C637B]" />
             </div>
-            <span class="text-gray-600 font-medium">Completadas</span>
+            <span class="text-gray-600 font-medium">Próximo Pago</span>
           </div>
           <div class="grow flex flex-col justify-end">
             <h3 class="text-xl font-bold text-gray-800 mb-1">
-              {{ completedRequests }}
+            S/  {{ nextPayment }}
             </h3>
-            <p class="text-gray-500 text-sm">Resueltas</p>
+            <p class="text-gray-500 text-sm">{{ nextPaymentDate }}</p>
           </div>
         </Card>
       </div>
@@ -78,433 +78,334 @@
           class="h-full flex flex-col p-6 hover:shadow-lg transition-shadow duration-200 min-h-[200px] justify-between bg-white"
         >
           <div class="flex items-center mb-4">
-            <div class="bg-red-100 p-2 mr-3 rounded-full">
-              <Icon name="alert-circle" size="24" class="text-red-500" />
+            <div class="bg-[#E4FFFA] p-2 mr-3 rounded-full">
+              <Icon name="clock" size="24" class="text-[#4FCABC]" />
             </div>
-            <span class="text-gray-600 font-medium">Pendientes</span>
+            <span class="text-gray-600 font-medium">Mes actual</span>
           </div>
           <div class="grow flex flex-col justify-end">
             <h3 class="text-xl font-bold text-gray-800 mb-1">
-              {{ pendingRequests }}
+              S/ {{ currentMonth }}
             </h3>
-            <p class="text-gray-500 text-sm">Esperando respuesta</p>
+            <p class="text-gray-500 text-sm">Gastado este mes</p>
           </div>
         </Card>
       </div>
     </div>
 
-    <div class="mt-8">
-      <Card class="p-6 bg-white shadow-sm hover:shadow-lg transition-shadow duration-200">
-        <div class="mb-4">
-          <h3 class="text-lg font-bold text-gray-800">Historial de Solicitudes</h3>
-          <p class="text-sm text-gray-500">Busca y filtra tus solicitudes</p>
-        </div>
+    <div class="mt-10">
+      <TabGroup :tabs="paymentTabs" v-model="activePaymentTab" />
 
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div class="relative w-full lg:max-w-sm">
-            <Icon
-              name="search"
-              size="18"
-              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-            />
-            <input
-              v-model="searchQuery"
-              type="text"
-              class="w-full border border-gray-200 rounded-md py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal"
-              placeholder="Buscar por ID o asunto ..."
-            />
-          </div>
-
-          <div class="relative w-full lg:w-60 ml-auto">
-            <button
-              type="button"
-              @click="togglePriorityDropdown"
-              class="w-full border border-gray-200 rounded-md py-2 pl-12 pr-3 text-sm text-left focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal cursor-pointer flex items-center"
-            >
-              <Icon
-                name="filter"
-                size="20"
-                class="text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
-              />
-              <span class="truncate pr-6">Prioridad: {{ selectedPriorityLabel }}</span>
-              <Icon
-                name="chevron-down"
-                size="16"
-                :class="[
-                  'ml-auto text-gray-500 transition-transform duration-200',
-                  isPriorityDropdownOpen ? 'rotate-180' : 'rotate-0',
-                ]"
-              />
-            </button>
-
-            <transition name="fade">
-              <ul
-                v-if="isPriorityDropdownOpen"
-                class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-sm"
+      <transition name="tab-content" mode="out-in">
+        <Card :key="activePaymentTab" class="mt-6 p-6 bg-white shadow-sm">
+          <template v-if="activePaymentTab === 'methods'">
+            <div class="flex flex-col gap-4">
+              <div
+                class="flex flex-col gap-4 border-b border-gray-100 pb-4 md:flex-row md:items-center md:justify-between"
               >
-                <li
-                  v-for="option in priorityOptions"
-                  :key="option.value"
-                  @click="handlePrioritySelect(option.value)"
-                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-50 cursor-pointer"
+                <div>
+                  <p class="text-sm font-semibold uppercase tracking-wide text-gray-400">
+                    Métodos de Pago
+                  </p>
+                  <h3 class="text-2xl font-bold text-gray-800 mt-1">
+                    Administra tus tarjetas y cuentas bancarias
+                  </h3>
+                  <p class="text-gray-600 mt-2">
+                    Revisa el estado de cada tarjeta afiliada, actualiza datos y controla qué método se usa por defecto.
+                  </p>
+                </div>
+                <Button
+                  customClass="bg-white border border-gray-300 text-[#324D68] hover:bg-gray-50 px-4 py-2 flex items-center gap-2 cursor-pointer"
                 >
-                  <span>{{ option.label }}</span>
-                  <Icon
-                    v-if="priorityFilter === option.value"
-                    name="check"
-                    size="16"
-                    class="text-ksp-green"
-                  />
+                  <Icon name="plus" size="18" />
+                  Agregar método de pago
+                </Button>
+              </div>
+
+              <div class="flex flex-col gap-3">
+                <div
+                  v-for="method in displayedMethods"
+                  :key="method.id"
+                  class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white/80 p-4 md:flex-row md:items-center"
+                >
+                  <div class="flex items-center justify-center md:w-20">
+                    <Icon name="credit-card" size="30" class="text-[#324D68]" />
+                  </div>
+
+                  <div class="flex flex-1 flex-col gap-2 md:flex-row md:items-center">
+                    <div class="flex flex-col gap-2 md:flex-1">
+                      <div class="flex flex-wrap items-center gap-3">
+                        <p class="text-lg font-semibold text-gray-800">
+                          {{ method.label }}
+                        </p>
+                        <div class="flex items-center gap-2">
+                          <span
+                            class="rounded-full px-3 py-1 text-xs font-semibold"
+                            :class="methodStatusClass(method.status)"
+                          >
+                            {{ method.status }}
+                          </span>
+                          <PaymentBrandIcon
+                            :brand="method.brand"
+                            customClass="h-5 w-9"
+                          />
+                        </div>
+                      </div>
+                      <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <p>{{ method.type }}</p>
+                        <p>Vence: {{ method.expiration }}</p>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 md:w-48">
+                      <button
+                        class="flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-600 hover:border-[#324D68] hover:bg-[#324D68]/10 hover:text-[#324D68] transition-colors cursor-pointer"
+                        aria-label="Editar método"
+                        title="Editar método"
+                      >
+                        <Icon name="edit" size="16" class="text-[#324D68]" />
+                        Editar
+                      </button>
+                      <button
+                        class="flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-600 hover:border-red-400 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer"
+                        aria-label="Eliminar método"
+                        title="Eliminar método"
+                      >
+                        <Icon name="trash" size="16" class="text-red-500" />
+                        Borrar
+                      </button>
+                      <button
+                        class="flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-600 hover:border-amber-400 hover:bg-amber-50 hover:text-amber-600 transition-colors cursor-pointer"
+                        aria-label="Deshabilitar método"
+                        title="Deshabilitar método"
+                      >
+                        <Icon name="slash-circle" size="16" class="text-amber-500" />
+                        Deshabilitar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-2">
+                <button
+                  class="text-sm font-semibold text-[#324D68] hover:text-[#24384c] cursor-pointer"
+                  @click="toggleMethodsExpansion"
+                >
+                  {{ showAllMethods ? 'Ver menos' : 'Ver más' }}
+                </button>
+              </div>
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="flex flex-col gap-4">
+              <div>
+                <p
+                  class="text-sm uppercase tracking-wide text-gray-400 font-semibold"
+                >
+                  {{ currentTabContent.badge }}
+                </p>
+                <h3 class="text-2xl font-bold text-gray-800 mt-1">
+                  {{ currentTabContent.title }}
+                </h3>
+                <p class="text-gray-600 mt-2">
+                  {{ currentTabContent.description }}
+                </p>
+              </div>
+
+              <ul class="space-y-3">
+                <li
+                  v-for="(item, index) in currentTabContent.items"
+                  :key="index"
+                  class="flex items-center gap-3 text-gray-700"
+                >
+                  <span
+                    class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#324D68]/10 text-[#324D68]"
+                  >
+                    <Icon name="check" size="16" />
+                  </span>
+                  <span>{{ item }}</span>
                 </li>
               </ul>
-            </transition>
-          </div>
-          
-          <div class="relative w-full lg:w-60">
-            <button
-              type="button"
-              @click="toggleStatusDropdown"
-              class="w-full border border-gray-200 rounded-md py-2 pl-12 pr-3 text-sm text-left focus:outline-none focus:ring-2 focus:ring-ksp-principal/30 focus:border-ksp-principal cursor-pointer flex items-center"
-            >
-              <Icon
-                name="filter"
-                size="20"
-                class="text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"
-              />
-              <span class="truncate pr-6">Estado: {{ selectedStatusLabel }}</span>
-              <Icon
-                name="chevron-down"
-                size="16"
-                :class="[
-                  'ml-auto text-gray-500 transition-transform duration-200',
-                  isStatusDropdownOpen ? 'rotate-180' : 'rotate-0',
-                ]"
-              />
-            </button>
 
-            <transition name="fade">
-              <ul
-                v-if="isStatusDropdownOpen"
-                class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-sm"
-              >
-                <li
-                  v-for="option in statusOptions"
-                  :key="option.value"
-                  @click="handleStatusSelect(option.value)"
-                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-50 cursor-pointer"
+              <div>
+                <Button
+                  customClass="bg-[#324D68] text-white hover:bg-[#24384c] px-4 py-2 cursor-pointer"
                 >
-                  <span>{{ option.label }}</span>
-                  <Icon
-                    v-if="statusFilter === option.value"
-                    name="check"
-                    size="16"
-                    class="text-ksp-green"
-                  />
-                </li>
-              </ul>
-            </transition>
-          </div>
-        </div>
-
-        <div class="mt-4">
-          <DataTable
-            :columns="requestColumns"
-            :data="paginatedRequests"
-            :pagination="paginationState"
-            @page-change="handlePageChange"
-            @update:itemsPerPage="handleItemsPerPageChange"
-          >
-            <template #cell-priority="{ value }">
-              <span
-                class="px-3 py-1 rounded-full text-xs font-semibold capitalize"
-                :class="priorityBadgeClass(value)"
-              >
-                {{ value }}
-              </span>
-            </template>
-
-            <template #cell-status="{ value }">
-              <span
-                class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"
-                :class="statusBadgeClass(value)"
-              >
-                <Icon :name="statusIconName(value)" size="14" />
-                {{ value }}
-              </span>
-            </template>
-
-            <template #cell-actions>
-              <button
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-[#465E77] hover:bg-[#324D68] transition-colors cursor-pointer"
-              >
-                <Icon name="eye" size="16" />
-                Ver detalles
-              </button>
-            </template>
-          </DataTable>
-        </div>
-      </Card>
+                  {{ currentTabContent.ctaLabel }}
+                </Button>
+              </div>
+            </div>
+          </template>
+        </Card>
+      </transition>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import Button from "../../components/ui/atoms/Button.vue";
 import Icon from "../../components/ui/atoms/Icon.vue";
 import Card from "../../components/ui/atoms/Card.vue";
-import DataTable from "../../components/ui/organisms/DataTable.vue";
+import TabGroup from "../../components/ui/molecules/TabGroup.vue";
+import PaymentBrandIcon from "./components/PaymentBrandIcon.vue";
 
-const requests = ref([
+const averageMonthly = ref(1042);
+const nextPayment = ref(1200);
+const nextPaymentDate = ref("2024-08-15");
+const totalRequests = ref(12500);
+const currentMonth = ref(35.9);
+
+const paymentTabs = [
+  { label: "Métodos de pago", value: "methods" },
+  { label: "Historial", value: "history" },
+  { label: "Pago Automático", value: "autopay" },
+];
+
+const activePaymentTab = ref(paymentTabs[0].value);
+
+const tabContentMap = {
+  history: {
+    badge: "Seguimiento",
+    title: "Consulta tu historial completo",
+    description:
+      "Revisa pagos confirmados, pendientes y exporta reportes detallados de cada periodo.",
+    items: [
+      "Filtros por fecha y estado",
+      "Descarga en CSV o PDF",
+      "Alertas de pagos vencidos",
+    ],
+    ctaLabel: "Ver historial",
+  },
+  autopay: {
+    badge: "Automatización",
+    title: "Activa el pago automático",
+    description:
+      "Configura débitos programados y olvídate de los vencimientos. Te notificaremos en cada cargo.",
+    items: [
+      "Frecuencias mensuales o personalizadas",
+      "Notificaciones previas al débito",
+      "Control de topes y reglas",
+    ],
+    ctaLabel: "Configurar pago automático",
+  },
+};
+
+const currentTabContent = computed(() => {
+  return tabContentMap[activePaymentTab.value] ?? tabContentMap.history;
+});
+
+const paymentMethods = ref([
   {
-    id: "SOL-2301",
-    type: "Soporte técnico",
-    subject: "Error al iniciar sesión",
-    date: "2024-07-05",
-    priority: "Alta",
-    status: "En progreso",
+    id: "card-1",
+    label: "Visa •••• 4532",
+    status: "Activo",
+    type: "Tarjeta de Crédito",
+    brand: "Visa",
+    expiration: "12/26",
   },
   {
-    id: "SOL-2299",
-    type: "Facturación",
-    subject: "Revisión de factura automática",
-    date: "2024-07-02",
-    priority: "Media",
-    status: "Pendiente",
+    id: "card-2",
+    label: "Mastercard •••• 9011",
+    status: "En validación",
+    type: "Tarjeta de Crédito",
+    brand: "Mastercard",
+    expiration: "04/27",
   },
   {
-    id: "SOL-2295",
-    type: "Implementación",
-    subject: "Configuración multi-sede",
-    date: "2024-06-28",
-    priority: "Alta",
-    status: "Resuelto",
+    id: "card-3",
+    label: "BBVA Cuenta Corriente",
+    status: "Deshabilitado",
+    type: "Cuenta Bancaria",
+    brand: "BBVA",
+    expiration: "-",
   },
   {
-    id: "SOL-2292",
-    type: "Integraciones",
-    subject: "API retorna error 500",
-    date: "2024-06-25",
-    priority: "Crítica",
-    status: "Abierta",
+    id: "card-4",
+    label: "Visa •••• 7789",
+    status: "Predeterminado",
+    type: "Tarjeta de Débito",
+    brand: "Visa",
+    expiration: "08/25",
   },
   {
-    id: "SOL-2288",
-    type: "Capacitación",
-    subject: "Sesión para nuevos usuarios",
-    date: "2024-06-20",
-    priority: "Baja",
-    status: "Cerrado",
+    id: "card-5",
+    label: "American Express •••• 3321",
+    status: "Activo",
+    type: "Tarjeta de Crédito",
+    brand: "American Express",
+    expiration: "01/28",
   },
   {
-    id: "SOL-2281",
-    type: "Soporte técnico",
-    subject: "Migración de base de datos",
-    date: "2024-06-18",
-    priority: "Crítica",
-    status: "En espera",
+    id: "card-6",
+    label: "Cuenta Interbank",
+    status: "Suspendido",
+    type: "Cuenta Bancaria",
+    brand: "Interbank",
+    expiration: "-",
   },
   {
-    id: "SOL-2275",
-    type: "Facturación",
-    subject: "Nota de crédito",
-    date: "2024-06-12",
-    priority: "Media",
-    status: "Resuelto",
-  },
-  {
-    id: "SOL-2269",
-    type: "Seguridad",
-    subject: "Revisión de accesos",
-    date: "2024-06-08",
-    priority: "Alta",
-    status: "Pendiente",
+    id: "card-7",
+    label: "Visa •••• 1188",
+    status: "Expirado",
+    type: "Tarjeta de Crédito",
+    brand: "Visa",
+    expiration: "09/23",
   },
 ]);
 
-const requestColumns = [
-  { key: "id", label: "ID solicitud", headerClass: "whitespace-nowrap" },
-  { key: "type", label: "Tipo" },
-  {
-    key: "subject",
-    label: "Asunto",
-    headerClass: "min-w-[200px]",
-  },
-  { key: "date", label: "Fecha", headerClass: "whitespace-nowrap" },
-  { key: "priority", label: "Prioridad" },
-  { key: "status", label: "Estado" },
-  {
-    key: "actions",
-    label: "Acciones",
-    headerClass: "text-right",
-    cellClass: "text-right",
-  },
-];
+const showAllMethods = ref(false);
 
-const statusOptions = computed(() => {
-  const uniqueStatuses = Array.from(
-    new Set(requests.value.map((request) => request.status))
-  );
+const orderedMethods = computed(() => {
+  const preferred = [];
+  const rest = [];
 
-  return [
-    { label: "Todos", value: "all" },
-    ...uniqueStatuses.map((status) => ({ label: status, value: status })),
-  ];
-});
-
-const priorityOptions = computed(() => {
-  const uniquePriorities = Array.from(
-    new Set(requests.value.map((request) => request.priority))
-  );
-
-  return [
-    { label: "Todas", value: "all" },
-    ...uniquePriorities.map((priority) => ({ label: priority, value: priority })),
-  ];
-});
-
-const searchQuery = ref("");
-const statusFilter = ref("all");
-const priorityFilter = ref("all");
-const isStatusDropdownOpen = ref(false);
-const isPriorityDropdownOpen = ref(false);
-const itemsPerPage = ref(10);
-const currentPage = ref(1);
-
-const totalRequests = computed(() => requests.value.length);
-const inProgressRequests = computed(
-  () => requests.value.filter((request) => request.status === "En progreso").length
-);
-const completedRequests = computed(
-  () =>
-    requests.value.filter((request) => ["Resuelto", "Cerrado"].includes(request.status)).length
-);
-const pendingRequests = computed(
-  () =>
-    requests.value.filter((request) => ["Pendiente", "Abierta", "En espera"].includes(request.status)).length
-);
-
-const selectedStatusLabel = computed(() => {
-  const option = statusOptions.value.find(
-    (item) => item.value === statusFilter.value
-  );
-  return option ? option.label : "Todos los estados";
-});
-
-const selectedPriorityLabel = computed(() => {
-  const option = priorityOptions.value.find(
-    (item) => item.value === priorityFilter.value
-  );
-  return option ? option.label : "Todas las prioridades";
-});
-
-const filteredRequests = computed(() => {
-  const term = searchQuery.value.trim().toLowerCase();
-  const status = statusFilter.value;
-  const priority = priorityFilter.value;
-
-  return requests.value.filter((request) => {
-    const matchesTerm = term
-      ? request.id.toLowerCase().includes(term) ||
-        request.subject.toLowerCase().includes(term) ||
-        request.type.toLowerCase().includes(term)
-      : true;
-
-    const matchesStatus =
-      status === "all"
-        ? true
-        : request.status.toLowerCase() === status.toLowerCase();
-
-    const matchesPriority =
-      priority === "all"
-        ? true
-        : request.priority.toLowerCase() === priority.toLowerCase();
-
-    return matchesTerm && matchesStatus && matchesPriority;
+  paymentMethods.value.forEach((method) => {
+    if (method.status === "Predeterminado") {
+      preferred.push(method);
+    } else {
+      rest.push(method);
+    }
   });
+
+  return [...preferred, ...rest];
 });
 
-const totalPages = computed(() =>
-  Math.max(1, Math.ceil(filteredRequests.value.length / itemsPerPage.value))
-);
-
-const paginatedRequests = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  return filteredRequests.value.slice(start, start + itemsPerPage.value);
+const displayedMethods = computed(() => {
+  const list = orderedMethods.value;
+  return showAllMethods.value ? list : list.slice(0, 5);
 });
 
-const paginationState = computed(() => ({
-  currentPage: currentPage.value,
-  totalPages: totalPages.value,
-  itemsPerPage: itemsPerPage.value,
-}));
-
-watch([searchQuery, statusFilter, priorityFilter], () => {
-  currentPage.value = 1;
-});
-
-const handlePageChange = (page) => {
-  if (page < 1 || page > totalPages.value) return;
-  currentPage.value = page;
+const toggleMethodsExpansion = () => {
+  showAllMethods.value = !showAllMethods.value;
 };
 
-const handleItemsPerPageChange = (value) => {
-  itemsPerPage.value = value;
-  currentPage.value = 1;
-};
-
-const toggleStatusDropdown = () => {
-  isStatusDropdownOpen.value = !isStatusDropdownOpen.value;
-};
-
-const handleStatusSelect = (value) => {
-  statusFilter.value = value;
-  isStatusDropdownOpen.value = false;
-};
-
-const togglePriorityDropdown = () => {
-  isPriorityDropdownOpen.value = !isPriorityDropdownOpen.value;
-};
-
-const handlePrioritySelect = (value) => {
-  priorityFilter.value = value;
-  isPriorityDropdownOpen.value = false;
-};
-
-const priorityBadgeClass = (priority) => {
+const methodStatusClass = (status) => {
   const map = {
-    critica: "bg-red-600 text-white",
-    alta: "bg-orange-500 text-white",
-    media: "bg-yellow-500 text-white",
-    baja: "bg-emerald-600 text-white",
+    Activo: "bg-green-500 text-white",
+    Predeterminado: "bg-blue-600 text-white",
+    "En validación": "bg-amber-500 text-white",
+    Deshabilitado: "bg-gray-600 text-white",
+    Suspendido: "bg-orange-500 text-white",
+    Expirado: "bg-red-600 text-white",
   };
 
-  return map[priority.toLowerCase()] || "bg-gray-500 text-white";
+  return map[status] || "bg-gray-100 text-gray-600";
 };
 
-const statusBadgeClass = (status) => {
-  const map = {
-    resuelto: "bg-green-600 text-white",
-    "en progreso": "bg-blue-600 text-white",
-    pendiente: "bg-amber-500 text-white",
-    "en espera": "bg-orange-600 text-white",
-    abierta: "bg-slate-600 text-white",
-    cerrado: "bg-zinc-600 text-white",
-  };
-
-  return map[status.toLowerCase()] || "bg-gray-500 text-white";
-};
-
-const statusIconName = (status) => {
-  const map = {
-    resuelto: "check-round",
-    "en progreso": "clock-round",
-    pendiente: "alert-circle",
-    "en espera": "pause",
-    abierta: "chat-bubble",
-    cerrado: "check-round",
-  };
-
-  return map[status.toLowerCase()] || "chat-bubble";
-};
 </script>
+
+<style scoped>
+.tab-content-enter-active,
+.tab-content-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tab-content-enter-from,
+.tab-content-leave-to {
+  opacity: 0;
+  transform: translateY(14px);
+}
+</style>
