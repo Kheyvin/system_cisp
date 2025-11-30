@@ -54,7 +54,7 @@
     <transition name="modal-fade">
       <div
         v-if="showVerifyModal"
-        class="fixed inset-0 z-30 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
+        class="fixed inset-0 z-999 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
       >
         <div class="w-full max-w-lg rounded-2xl bg-white shadow-2xl">
           <div

@@ -297,6 +297,115 @@
       d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"
     ></path>
     <path v-if="name === 'bell'" d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+
+    <rect
+      v-if="name === 'gift'"
+      x="2"
+      y="7"
+      width="20"
+      height="5"
+      rx="1"
+    ></rect>
+    <polyline
+      v-if="name === 'gift'"
+      points="20 12 20 22 4 22 4 12"
+    ></polyline>
+    <line v-if="name === 'gift'" x1="12" y1="7" x2="12" y2="22"></line>
+    <path
+      v-if="name === 'gift'"
+      d="M12 7a3 3 0 1 0-3-3c0 1.66 1.34 3 3 3"
+    ></path>
+    <path
+      v-if="name === 'gift'"
+      d="M12 7a3 3 0 1 1 3-3c0 1.66-1.34 3-3 3"
+    ></path>
+
+    <circle v-if="name === 'info'" cx="12" cy="12" r="10"></circle>
+    <line v-if="name === 'info'" x1="12" y1="16" x2="12" y2="12"></line>
+    <line v-if="name === 'info'" x1="12" y1="8" x2="12.01" y2="8"></line>
+
+    <line v-if="name === 'percent'" x1="19" y1="5" x2="5" y2="19"></line>
+    <circle v-if="name === 'percent'" cx="6.5" cy="6.5" r="2.5"></circle>
+    <circle v-if="name === 'percent'" cx="17.5" cy="17.5" r="2.5"></circle>
+
+    <polygon
+      v-if="name === 'zap'"
+      points="13 2 3 14 12 14 11 22 21 10 12 10"
+    ></polygon>
+
+    <rect
+      v-if="name === 'tv'"
+      x="2"
+      y="7"
+      width="20"
+      height="15"
+      rx="2"
+      ry="2"
+    ></rect>
+    <polyline v-if="name === 'tv'" points="17 2 12 7 7 2"></polyline>
+
+    <path
+      v-if="name === 'headphones'"
+      d="M3 18v-6a9 9 0 0 1 18 0v6"
+    ></path>
+    <path
+      v-if="name === 'headphones'"
+      d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"
+    ></path>
+    <path
+      v-if="name === 'headphones'"
+      d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3"
+    ></path>
+
+    <path
+      v-if="name === 'shield'"
+      d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+    ></path>
+
+    <path
+      v-if="name === 'users'"
+      d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+    ></path>
+    <circle v-if="name === 'users'" cx="9" cy="7" r="4"></circle>
+    <path
+      v-if="name === 'users'"
+      d="M23 21v-2a4 4 0 0 0-3-3.87"
+    ></path>
+    <path
+      v-if="name === 'users'"
+      d="M16 3.13a4 4 0 0 1 0 7.75"
+    ></path>
+
+    <path
+      v-if="name === 'phone-call'"
+      d="M15.05 5A5 5 0 0 1 19 8.95"
+    ></path>
+    <path
+      v-if="name === 'phone-call'"
+      d="M15.05 1A9 9 0 0 1 23 8.94"
+    ></path>
+    <path
+      v-if="name === 'phone-call'"
+      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"
+    ></path>
+
+    <path
+      v-if="name === 'user-check'"
+      d="M20 21v-2a4 4 0 0 0-3-3.87"
+    ></path>
+    <path
+      v-if="name === 'user-check'"
+      d="M4 21v-2a4 4 0 0 1 4-4h4"
+    ></path>
+    <circle v-if="name === 'user-check'" cx="12" cy="7" r="4"></circle>
+    <polyline v-if="name === 'user-check'" points="16 11 18 13 22 9"></polyline>
+
+    <polygon
+      v-if="name === 'layers'"
+      points="12 2 2 7 12 12 22 7 12 2"
+    ></polygon>
+    <polyline v-if="name === 'layers'" points="2 12 12 17 22 12"></polyline>
+    <polyline v-if="name === 'layers'" points="2 17 12 22 22 17"></polyline>
   </svg>
 </template>
 
