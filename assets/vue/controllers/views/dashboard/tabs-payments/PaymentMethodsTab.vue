@@ -16,6 +16,7 @@
       </div>
       <Button
         customClass="bg-white border border-gray-300 text-[#324D68] hover:bg-gray-50 px-4 py-2 flex items-center gap-2 cursor-pointer"
+        @click="openAddMethodModal"
       >
         <Icon name="plus" size="18" />
         Agregar método de pago
@@ -98,6 +99,136 @@
         {{ showAllMethods ? 'Ver menos' : 'Ver más' }}
       </button>
     </div>
+
+    <transition
+      name="modal-entrar"
+      enter-active-class="modal-entrar-activo"
+      leave-active-class="modal-salir-activo"
+      enter-from-class="modal-entrar-desde"
+      leave-to-class="modal-salir-hacia"
+    >
+      <div
+        v-if="showAddMethodModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4"
+        @click.self="closeAddMethodModal"
+      >
+        <div class="w-full max-w-xl rounded-2xl bg-white shadow-2xl">
+          <div class="flex items-start justify-between" style="padding: 21px 21px 0 21px">
+            <div class="flex-1 flex flex-col gap-2 text-center sm:text-left">
+              <h3 class="text-lg leading-none font-semibold">
+                Agregar Método de Pago
+              </h3>
+              <p class="text-sm" style="color: #64748b">
+                Agrega una nueva tarjeta o cuenta bancaria
+              </p>
+            </div>
+            <button
+              type="button"
+              class="ml-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+              @click="closeAddMethodModal"
+              aria-label="Cerrar"
+            >
+              <Icon name="x" size="20" />
+            </button>
+          </div>
+
+          <form @submit.prevent="handleAddMethod" class="space-y-5" style="padding: 21px">
+            <div class="flex items-center gap-4">
+              <label class="w-32 text-sm font-semibold text-gray-700">
+                Tipo
+              </label>
+              <div class="relative flex-1">
+                <select
+                  v-model="newMethod.type"
+                  class="select-pago w-full rounded-lg border-0 px-4 py-2 pr-10 focus:border focus:border-[#4FCABC] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4FCABC]/50 appearance-none cursor-pointer"
+                  :class="newMethod.type ? 'text-gray-900' : 'text-gray-400'"
+                  style="background-color: #f8fafc"
+                  required
+                >
+                  <option value="" disabled hidden>Seleccionar tipo</option>
+                  <option 
+                    v-for="option in paymentTypeOptions" 
+                    :key="option.value" 
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
+                </select>
+                <Icon
+                  name="chevron-down"
+                  size="20"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <label class="w-32 text-sm font-semibold text-gray-700">
+                Número
+              </label>
+              <div class="flex-1">
+                <input
+                  v-model="newMethod.number"
+                  type="text"
+                  placeholder="1234 5678 9012 3456"
+                  :class="[
+                    'w-full rounded-lg border-0 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border focus:border-[#4FCABC] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4FCABC]/50',
+                    cardNumberError ? 'border border-red-500 focus:border-red-500' : ''
+                  ]"
+                  style="background-color: #f8fafc"
+                  maxlength="19"
+                  @input="formatCardNumber"
+                  @blur="validarNumeroTarjeta"
+                  required
+                />
+                <p v-if="cardNumberError" class="text-red-500 text-xs mt-1">
+                  {{ cardNumberError }}
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <label class="w-32 text-sm font-semibold text-gray-700">
+                Nombre
+              </label>
+              <input
+                v-model="newMethod.name"
+                type="text"
+                placeholder="Nombre en la tarjeta"
+                class="flex-1 rounded-lg border-0 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border focus:border-[#4FCABC] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4FCABC]/50"
+                style="background-color: #f8fafc"
+                required
+              />
+            </div>
+
+            <div class="flex items-center gap-4">
+              <label class="w-32 text-sm font-semibold text-gray-700">
+                Vencimiento
+              </label>
+              <input
+                v-model="newMethod.expiration"
+                type="text"
+                placeholder="MM/AA"
+                class="flex-1 rounded-lg border-0 px-4 py-2 text-gray-900 placeholder-gray-400 focus:border focus:border-[#4FCABC] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4FCABC]/50"
+                style="background-color: #f8fafc"
+                maxlength="5"
+                @input="formatExpiration"
+                required
+              />
+            </div>
+
+            <div class="flex justify-end pt-4">
+              <Button
+                type="submit"
+                customClass="bg-[#15b8a6] text-white hover:bg-[#16c4b0] px-4 py-2.5 rounded-xl font-semibold transition-colors cursor-pointer text-sm"
+              >
+                Agregar Método
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -106,6 +237,12 @@ import { computed, ref } from "vue";
 import Button from "../../../components/ui/atoms/Button.vue";
 import Icon from "../../../components/ui/atoms/Icon.vue";
 import PaymentBrandIcon from "../components/PaymentBrandIcon.vue";
+
+const paymentTypeOptions = [
+  { value: "Tarjeta de Crédito", label: "Tarjeta de Crédito" },
+  { value: "Tarjeta de Débito", label: "Tarjeta de Débito" },
+  { value: "Cuenta Bancaria", label: "Cuenta Bancaria" },
+];
 
 const paymentMethods = ref([
   {
@@ -167,6 +304,92 @@ const paymentMethods = ref([
 ]);
 
 const showAllMethods = ref(false);
+const showAddMethodModal = ref(false);
+const cardNumberError = ref("");
+
+const newMethod = ref({
+  type: "",
+  number: "",
+  name: "",
+  expiration: "",
+});
+
+const openAddMethodModal = () => {
+  showAddMethodModal.value = true;
+  newMethod.value = {
+    type: "",
+    number: "",
+    name: "",
+    expiration: "",
+  };
+  cardNumberError.value = "";
+};
+
+const closeAddMethodModal = () => {
+  showAddMethodModal.value = false;
+};
+
+const formatCardNumber = (event) => {
+  let value = event.target.value.replace(/\s/g, "").replace(/[^0-9]/gi, "");
+  let formattedValue = value.match(/.{1,4}/g)?.join(" ") || value;
+  if (formattedValue.length <= 19) {
+    newMethod.value.number = formattedValue;
+    cardNumberError.value = "";
+  }
+};
+
+const validarNumeroTarjeta = () => {
+  const numeroTarjeta = newMethod.value.number.replace(/\s/g, "");
+  
+  if (!numeroTarjeta) {
+    cardNumberError.value = "";
+    return false;
+  }
+  
+  if (numeroTarjeta.length < 13 || numeroTarjeta.length > 19) {
+    cardNumberError.value = "El numero de tarjeta debe tener entre 13 y 19 digitos";
+    return false;
+  }
+  
+  let suma = 0;
+  let esPar = false;
+  for (let i = numeroTarjeta.length - 1; i >= 0; i--) {
+    let digito = parseInt(numeroTarjeta[i]);
+    if (esPar) {
+      digito *= 2;
+      if (digito > 9) {
+        digito -= 9;
+      }
+    }
+    suma += digito;
+    esPar = !esPar;
+  }
+  
+  if (suma % 10 !== 0) {
+    cardNumberError.value = "Numero de tarjeta invalido";
+    return false;
+  }
+  
+  cardNumberError.value = "";
+  return true;
+};
+
+const formatExpiration = (event) => {
+  let value = event.target.value.replace(/\D/g, "");
+  if (value.length >= 2) {
+    value = value.substring(0, 2) + "/" + value.substring(2, 4);
+  }
+  newMethod.value.expiration = value;
+};
+
+const handleAddMethod = () => {
+  if (!validarNumeroTarjeta()) {
+    return;
+  }
+  
+  console.log("Nuevo metodo de pago:", newMethod.value);
+  closeAddMethodModal();
+};
 
 const orderedMethods = computed(() => {
   const preferred = [];
@@ -205,3 +428,57 @@ const methodStatusClass = (status) => {
   return map[status] || "bg-gray-100 text-gray-600";
 };
 </script>
+
+<style scoped>
+.modal-entrar-activo,
+.modal-salir-activo {
+  transition: opacity 0.3s ease;
+}
+
+.modal-entrar-desde,
+.modal-salir-hacia {
+  opacity: 0;
+}
+
+.select-pago {
+  color: #1f2937;
+}
+
+.select-pago:invalid,
+.select-pago option[value=""] {
+  color: #9ca3af !important;
+}
+
+.select-pago option {
+  background-color: white !important;
+  color: #1f2937 !important;
+  padding: 8px 12px;
+  padding-right: 40px;
+  text-align: left;
+}
+
+.select-pago option:hover {
+  background-color: #1e3a8a !important;
+  color: white !important;
+}
+
+.select-pago option:checked,
+.select-pago option[selected] {
+  background-color: white !important;
+  color: #1f2937 !important;
+  position: relative;
+}
+
+.select-pago option:checked::after,
+.select-pago option[selected]::after {
+  content: "✓";
+  color: #1e3a8a;
+  font-weight: 900;
+  font-size: 18px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+}
+</style>
