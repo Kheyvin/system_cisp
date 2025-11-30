@@ -7,7 +7,7 @@
       <img
         :src="isOpen ? '/images/ksperu.svg' : '/images/ksperulogo.png'"
         alt="Logo KSPeru"
-        :class="isOpen ? 'w-fit p-4' : 'w-10'"
+        :class="isOpen ? 'w-fit px-10 pt-12 pb-8' : 'w-8'"
       />
     </div>
     <nav class="mt-5 px-2 space-y-6">
