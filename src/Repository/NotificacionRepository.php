@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\MkService;
+use App\Entity\Notificacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<MkService>
+ * @extends ServiceEntityRepository<Notificacion>
  */
-class MkServiceRepository extends ServiceEntityRepository
+class NotificacionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MkService::class);
+        parent::__construct($registry, Notificacion::class);
     }
 
 //    /**
-//     * @return MkService[] Returns an array of MkService objects
+//     * @return Notificacion[] Returns an array of Notificacion objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
+//        return $this->createQueryBuilder('n')
+//            ->andWhere('n.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
+//            ->orderBy('n.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?MkService
+//    public function findOneBySomeField($value): ?Notificacion
 //    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
+//        return $this->createQueryBuilder('n')
+//            ->andWhere('n.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

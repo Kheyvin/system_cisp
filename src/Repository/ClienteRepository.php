@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\ChargeType;
+use App\Entity\Cliente;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ChargeType>
+ * @extends ServiceEntityRepository<Cliente>
  */
-class ChargeTypeRepository extends ServiceEntityRepository
+class ClienteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ChargeType::class);
+        parent::__construct($registry, Cliente::class);
     }
 
 //    /**
-//     * @return ChargeType[] Returns an array of ChargeType objects
+//     * @return Cliente[] Returns an array of Cliente objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class ChargeTypeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?ChargeType
+//    public function findOneBySomeField($value): ?Cliente
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

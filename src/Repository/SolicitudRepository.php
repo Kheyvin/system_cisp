@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Charge;
+use App\Entity\Solicitud;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Charge>
+ * @extends ServiceEntityRepository<Solicitud>
  */
-class ChargeRepository extends ServiceEntityRepository
+class SolicitudRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Charge::class);
+        parent::__construct($registry, Solicitud::class);
     }
 
 //    /**
-//     * @return Charge[] Returns an array of Charge objects
+//     * @return Solicitud[] Returns an array of Solicitud objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
+//            ->orderBy('s.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Charge
+//    public function findOneBySomeField($value): ?Solicitud
 //    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
+//        return $this->createQueryBuilder('s')
+//            ->andWhere('s.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

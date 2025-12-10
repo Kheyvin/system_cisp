@@ -2,183 +2,140 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Symfony\Component\Uid\Uuid;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlanRepository;
-use ApiPlatform\Metadata\ApiResource;
-use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlanRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['plan:read']])]
+#[ORM\Table(name: '`plan`')]
 class Plan
 {
     #[ORM\Id]
-    #[ORM\Column(type: UuidType::NAME, unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    #[Groups(['plan:read'])]
-    private ?Uuid $id = null;
-
-    #[ORM\Column(length: 255)]
-    #[Groups(['plan:read'])]
-    private ?string $name = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['plan:read'])]
-    private ?string $plan_mk = null;
+    private ?string $nombre = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['plan:read'])]
-    private ?string $state = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $descripcion = null;
 
-    #[ORM\Column(name: '"createdAt"', type: Types::DATETIME_MUTABLE)]
-    #[Groups(['plan:read'])]
-    private ?\DateTime $createdAt = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $velocidad_mbps = null;
 
-    #[ORM\Column(name: '"updatedAt"', type: Types::DATETIME_MUTABLE)]
-    #[Groups(['plan:read'])]
-    private ?\DateTime $updatedAt = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $precio_regular = null;
 
-    #[ORM\Column(name: '"deletedAt"', type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['plan:read'])]
-    private ?\DateTime $deletedAt = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $precio_promocional = null;
 
-    #[ORM\ManyToOne(inversedBy: 'plans')]
-    #[ORM\JoinColumn(name: '"id_zone"', nullable: false)]
-    #[Groups(['plan:read'])]
-    private ?Zone $id_zone = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $porcentaje_descuento = null;
 
-    /**
-     * @var Collection<int, DetailPlan>
-     */
-    #[ORM\OneToMany(targetEntity: DetailPlan::class, mappedBy: 'id_plan')]
-    private Collection $detailPlans;
+    #[ORM\Column]
+    private array $caracteristicas = [];
 
-    public function __construct()
-    {
-        $this->detailPlans = new ArrayCollection();
-    }
+    #[ORM\Column(nullable: true)]
+    private ?bool $activo = null;
 
-    public function getId(): ?Uuid
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getNombre(): ?string
     {
-        return $this->name;
+        return $this->nombre;
     }
 
-    public function setName(string $name): static
+    public function setNombre(?string $nombre): static
     {
-        $this->name = $name;
+        $this->nombre = $nombre;
 
         return $this;
     }
 
-    public function getPlanMk(): ?string
+    public function getDescripcion(): ?string
     {
-        return $this->plan_mk;
+        return $this->descripcion;
     }
 
-    public function setPlanMk(?string $plan_mk): static
+    public function setDescripcion(string $descripcion): static
     {
-        $this->plan_mk = $plan_mk;
+        $this->descripcion = $descripcion;
 
         return $this;
     }
 
-    public function getState(): ?string
+    public function getVelocidadMbps(): ?int
     {
-        return $this->state;
+        return $this->velocidad_mbps;
     }
 
-    public function setState(?string $state): static
+    public function setVelocidadMbps(?int $velocidad_mbps): static
     {
-        $this->state = $state;
+        $this->velocidad_mbps = $velocidad_mbps;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getPrecioRegular(): ?float
     {
-        return $this->createdAt;
+        return $this->precio_regular;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setPrecioRegular(?float $precio_regular): static
     {
-        $this->createdAt = $createdAt;
+        $this->precio_regular = $precio_regular;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getPrecioPromocional(): ?float
     {
-        return $this->updatedAt;
+        return $this->precio_promocional;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt): static
+    public function setPrecioPromocional(?float $precio_promocional): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->precio_promocional = $precio_promocional;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTime
+    public function getPorcentajeDescuento(): ?int
     {
-        return $this->deletedAt;
+        return $this->porcentaje_descuento;
     }
 
-    public function setDeletedAt(?\DateTime $deletedAt): static
+    public function setPorcentajeDescuento(?int $porcentaje_descuento): static
     {
-        $this->deletedAt = $deletedAt;
+        $this->porcentaje_descuento = $porcentaje_descuento;
 
         return $this;
     }
 
-    public function getIdZone(): ?Zone
+    public function getCaracteristicas(): array
     {
-        return $this->id_zone;
+        return $this->caracteristicas;
     }
 
-    public function setIdZone(?Zone $id_zone): static
+    public function setCaracteristicas(array $caracteristicas): static
     {
-        $this->id_zone = $id_zone;
+        $this->caracteristicas = $caracteristicas;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, DetailPlan>
-     */
-    public function getDetailPlans(): Collection
+    public function isActivo(): ?bool
     {
-        return $this->detailPlans;
+        return $this->activo;
     }
 
-    public function addDetailPlan(DetailPlan $detailPlan): static
+    public function setActivo(?bool $activo): static
     {
-        if (!$this->detailPlans->contains($detailPlan)) {
-            $this->detailPlans->add($detailPlan);
-            $detailPlan->setIdPlan($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDetailPlan(DetailPlan $detailPlan): static
-    {
-        if ($this->detailPlans->removeElement($detailPlan)) {
-            // set the owning side to null (unless already changed)
-            if ($detailPlan->getIdPlan() === $this) {
-                $detailPlan->setIdPlan(null);
-            }
-        }
+        $this->activo = $activo;
 
         return $this;
     }
