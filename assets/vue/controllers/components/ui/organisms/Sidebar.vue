@@ -103,6 +103,11 @@ const sections = [
         icon: "settings",
         label: "Configuracion",
       },
+      {
+        to: "/dashboard/libro-reclamaciones",
+        icon: "book-open",
+        label: "Libro de reclamaciones",
+      },
     ],
   },
 ];

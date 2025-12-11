@@ -406,6 +406,82 @@
     ></polygon>
     <polyline v-if="name === 'layers'" points="2 12 12 17 22 12"></polyline>
     <polyline v-if="name === 'layers'" points="2 17 12 22 22 17"></polyline>
+
+    <path
+      v-if="name === 'book-open'"
+      d="M2 4h6a4 4 0 0 1 4 4v12"
+    ></path>
+    <path
+      v-if="name === 'book-open'"
+      d="M22 4h-6a4 4 0 0 0-4 4v12"
+    ></path>
+    <path
+      v-if="name === 'book-open'"
+      d="M2 6v14a2 2 0 0 0 2 2h8"
+    ></path>
+    <path
+      v-if="name === 'book-open'"
+      d="M22 6v14a2 2 0 0 1-2 2h-8"
+    ></path>
+
+    <rect
+      v-if="name === 'building'"
+      x="3"
+      y="3"
+      width="7"
+      height="18"
+      rx="1"
+    ></rect>
+    <rect
+      v-if="name === 'building'"
+      x="14"
+      y="8"
+      width="7"
+      height="13"
+      rx="1"
+    ></rect>
+    <line v-if="name === 'building'" x1="6.5" y1="7" x2="6.5" y2="7.01"></line>
+    <line v-if="name === 'building'" x1="6.5" y1="11" x2="6.5" y2="11.01"></line>
+    <line v-if="name === 'building'" x1="6.5" y1="15" x2="6.5" y2="15.01"></line>
+    <line v-if="name === 'building'" x1="17.5" y1="11" x2="17.5" y2="11.01"></line>
+    <line v-if="name === 'building'" x1="17.5" y1="15" x2="17.5" y2="15.01"></line>
+    <line v-if="name === 'building'" x1="6.5" y1="19" x2="6.5" y2="21"></line>
+    <line v-if="name === 'building'" x1="17.5" y1="19" x2="17.5" y2="21"></line>
+
+    <path v-if="name === 'building-2'" d="M10 12h4"></path>
+    <path v-if="name === 'building-2'" d="M10 8h4"></path>
+    <path v-if="name === 'building-2'" d="M14 21v-3a2 2 0 0 0-4 0v3"></path>
+    <path
+      v-if="name === 'building-2'"
+      d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"
+    ></path>
+    <path
+      v-if="name === 'building-2'"
+      d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"
+    ></path>
+
+    <polyline
+      v-if="name === 'refresh'"
+      points="23 4 23 10 17 10"
+    ></polyline>
+    <polyline
+      v-if="name === 'refresh'"
+      points="1 20 1 14 7 14"
+    ></polyline>
+    <path
+      v-if="name === 'refresh'"
+      d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"
+    ></path>
+    <path
+      v-if="name === 'refresh'"
+      d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"
+    ></path>
+
+    <line v-if="name === 'send'" x1="22" y1="2" x2="11" y2="13"></line>
+    <polygon
+      v-if="name === 'send'"
+      points="22 2 15 22 11 13 2 9 22 2"
+    ></polygon>
   </svg>
 </template>
 

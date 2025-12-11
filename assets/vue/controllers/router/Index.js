@@ -7,9 +7,11 @@ import Home from '../views/dashboard/Home.vue';
 import Receipts from '../views/dashboard/Receipts.vue';
 import Requests from '../views/dashboard/Requests.vue';
 import Promotions from '../views/dashboard/Promotions.vue';
+import Notifications from '../views/dashboard/Notifications.vue';
 import Payments from '../views/dashboard/Payments.vue';
 import Settings from '../views/dashboard/Settings.vue';
 import Support from '../views/dashboard/Support.vue';
+import ClaimsBook from '../views/dashboard/ClaimsBook.vue';
 
 const routes = [
   {
@@ -39,6 +41,18 @@ const routes = [
     path: '/dashboard/promociones',
     name: 'Promotions',
     component: Promotions,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+  {
+    path: '/dashboard/notificaciones',
+    name: 'Notifications',
+    component: Notifications,
+    meta: { layout: DashboardLayout, requiresAuth: false },
+  },
+  {
+    path: '/dashboard/libro-reclamaciones',
+    name: 'ClaimsBook',
+    component: ClaimsBook,
     meta: { layout: DashboardLayout, requiresAuth: false },
   },
   {
